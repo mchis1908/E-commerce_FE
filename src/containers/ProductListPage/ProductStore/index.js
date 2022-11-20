@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductsBySlug } from "../../../actions";
 import { generatePublicUrl } from "../../../urlConfig";
 import { Link } from "react-router-dom";
+import Card from '../../../components/UI/Card'
+
 
 /**
  * @author
@@ -31,20 +33,22 @@ const ProductStore = (props) => {
     <>
       {Object.keys(product.productsByPrice).map((key, index) => {
         return (
-          <div className="card">
-            <div className="cardHeader">
-              <div>
-                {window.location.pathname} dưới {priceRange[key]} triệu
-              </div>
-              <button>Xem tất cả</button>
-            </div>
+          <Card
+            headerLeft={`${window.location.pathname} dưới ${priceRange[key]} triệu`}
+            headerRight={<button>Xem tất cả</button>}
+            style={{
+              width: 'calc(100% - 40px)',
+              margin: '20px'
+            }}
+          >
+
             <div style={{ display: "flex" }}>
               {product.productsByPrice[key].map((product) => (
-                <Link 
-                to={`/${product.slug}/${product._id}/p`}
-                style={{
-                  display: 'block'
-                }} className="productContainer">
+                <Link
+                  to={`/${product.slug}/${product._id}/p`}
+                  style={{
+                    display: 'block'
+                  }} className="productContainer">
                   <div className="productImgContainer">
                     <img
                       src={generatePublicUrl(product.productPictures[0].img)}
@@ -62,7 +66,7 @@ const ProductStore = (props) => {
                 </Link>
               ))}
             </div>
-          </div>
+          </Card>
         );
       })}
     </>
