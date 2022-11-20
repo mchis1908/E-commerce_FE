@@ -13,7 +13,9 @@ import { AiFillThunderbolt } from 'react-icons/ai';
 import { MaterialButton } from '../../components/MaterialUI';
 import './style.css';
 import { generatePublicUrl } from '../../urlConfig';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { addToCart } from '../../actions/cart.action';
+
 
 /**
 * @author
@@ -22,6 +24,7 @@ import { useParams } from 'react-router-dom';
 
 const ProductDetailsPage = (props) => {
 
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const product = useSelector(state => state.product);
     const { productId } = useParams()
@@ -74,6 +77,12 @@ const ProductDetailsPage = (props) => {
                                     marginRight: '5px'
                                 }}
                                 icon={<IoMdCart />}
+                                onClick={() => {
+                                    const { _id, name, price } = product.productDetails;
+                                    const img = product.productDetails.productPictures[0].img;
+                                    dispatch(addToCart({ _id, name, price, img }));
+                                    navigate(`/cart`);
+                                }}
                             />
                             <MaterialButton
                                 title="BUY NOW"
