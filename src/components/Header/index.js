@@ -108,41 +108,43 @@ const Header = (props) => {
             </div>
             <div className="rightspace">
 
+              <div className='loginInputContainer'>
 
-              <MaterialInput
-                type="text"
-                label="Enter Email/Enter Mobile Number"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+                <MaterialInput
+                  type="text"
+                  label="Enter Email/Enter Mobile Number"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
 
-              <MaterialInput
-                type="password"
-                label="Enter Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              //   rightElement={<a href="#">Forgot?</a>}
-              />
+                <MaterialInput
+                  type="password"
+                  label="Enter Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                //   rightElement={<a href="#">Forgot?</a>}
+                />
 
-              <MaterialButton
-                title="Login"
-                bgColor="#fb641b"
-                textColor="#ffffff"
-                style={{
-                  margin: '40px 0 20px 0'
-                }}
-                onClick={userLogin}
-              />
+                <MaterialButton
+                  title="Login"
+                  bgColor="#fb641b"
+                  textColor="#ffffff"
+                  style={{
+                    margin: '40px 0 20px 0'
+                  }}
+                  onClick={userLogin}
+                />
 
-              <p>OR</p>
-              <MaterialButton
-                title="Request OTP"
-                bgColor="#ffffff"
-                textColor="#2874f0"
-                style={{
-                  margin: '20px 0'
-                }}
-              />
+                <p style={{ textAlign: 'center' }}>OR</p>
+                <MaterialButton
+                  title="Request OTP"
+                  bgColor="#ffffff"
+                  textColor="#2874f0"
+                  style={{
+                    margin: '20px 0'
+                  }}
+                />
+              </div>
 
 
 
@@ -200,7 +202,7 @@ const Header = (props) => {
             ]}
           />
           <div>
-            <a className="cart">
+            <a href={`/cart`} className="cart">
               <IoIosCart />
               <span style={{ margin: '0 10px' }}>Cart</span>
             </a>
