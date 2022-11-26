@@ -6,7 +6,7 @@ import ProductStore from "./ProductStore";
 import "./style.css";
 
 const ProductListPage = (props) => {
-  const renderProdcut = () => {
+  const renderProduct = () => {
     console.log(window.location.search);
     const params = getParams(window.location.search);
     let content = null;
@@ -22,7 +22,7 @@ const ProductListPage = (props) => {
     }
     return content;
   };
-  return <Layout>{renderProdcut()}</Layout>;
+  return <Layout>{renderProduct()}</Layout>;
 };
 
 export default ProductListPage;
