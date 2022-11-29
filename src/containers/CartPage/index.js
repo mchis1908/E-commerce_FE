@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/Layout";
 import Card from "../../components/UI/Card";
 import CartItem from "./CartItem";
+import { addToCart, getCartItems, removeCartItem } from "../../actions";
 import PriceDetails from "../../components/PriceDetails";
-import { addToCart, getCartItems } from "../../actions";
 
 import "./style.css";
 import { MaterialButton } from "../../components/MaterialUI";
@@ -21,6 +21,8 @@ Add product to cart
 save in localStorage
 when try to checkout ask for credentials and 
 if logged in then add products to users cart database from localStorage
+
+
 */
 
 const CartPage = (props) => {
@@ -34,19 +36,26 @@ const CartPage = (props) => {
   useEffect(() => {
     setCartItems(cart.cartItems);
   }, [cart.cartItems]);
+
   useEffect(() => {
     if (auth.authenticate) {
       dispatch(getCartItems());
     }
   }, [auth.authenticate]);
+
   const onQuantityIncrement = (_id, qty) => {
-    // console.log(_id, qty);
+    //console.log({_id, qty});
     const { name, price, img } = cartItems[_id];
     dispatch(addToCart({ _id, name, price, img }, 1));
   };
+
   const onQuantityDecrement = (_id, qty) => {
     const { name, price, img } = cartItems[_id];
     dispatch(addToCart({ _id, name, price, img }, -1));
+  };
+
+  const onRemoveCartItem = (_id) => {
+    dispatch(removeCartItem({ productId: _id }));
   };
 
   if (props.onlyCartItems) {
@@ -63,6 +72,7 @@ const CartPage = (props) => {
       </>
     );
   }
+
   return (
     <Layout>
       <div className="cartContainer" style={{ alignItems: "flex-start" }}>
@@ -77,6 +87,7 @@ const CartPage = (props) => {
               cartItem={cartItems[key]}
               onQuantityInc={onQuantityIncrement}
               onQuantityDec={onQuantityDecrement}
+              onRemoveCartItem={onRemoveCartItem}
             />
           ))}
 
@@ -99,14 +110,6 @@ const CartPage = (props) => {
             </div>
           </div>
         </Card>
-
-        <Card
-          headerLeft="Price"
-          style={{
-            width: "380px",
-          }}
-        ></Card>
-
         <PriceDetails
           totalItem={Object.keys(cart.cartItems).reduce(function (qty, key) {
             return qty + cart.cartItems[key].qty;
