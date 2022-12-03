@@ -59,6 +59,7 @@ const ProductStore = (props) => {
                   to={`/${product.slug}/${product._id}/p`}
                   style={{
                     display: "block",
+                    textDecoration: "none",
                   }}
                   className="productContainer"
                 >
