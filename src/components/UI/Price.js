@@ -7,6 +7,13 @@ import { BiRupee } from "react-icons/bi";
  **/
 
 const Price = (props) => {
+  const money = (+props.value).toLocaleString("vi", {
+    style: "currency",
+    currency: "VND",
+  });
+  var x = 1000;
+  x = x.toLocaleString("vi", { style: "currency", currency: "VND" });
+  console.log(x);
   return (
     <div
       style={{
@@ -15,8 +22,8 @@ const Price = (props) => {
         margin: "5px 0",
       }}
     >
-      <BiRupee />
-      {props.value}
+      {/* <BiRupee /> */}
+      {money}
     </div>
   );
 };
