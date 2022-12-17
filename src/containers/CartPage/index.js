@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import React, { Fragment, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
+import MetaTags from "react-meta-tags";
+import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
+import { connect } from "react-redux";
+import LayoutOne from "../../layouts/LayoutOne";
+import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
 import Layout from "../../components/Layout";
 import Card from "../../components/UI/Card";
 import CartItem from "./CartItem";
 import { addToCart, getCartItems, removeCartItem } from "../../actions";
 import PriceDetails from "../../components/PriceDetails";
-
-import "./style.css";
+import { generatePublicUrl } from "../../urlConfig";
+// import "./style.css";
 import { MaterialButton } from "../../components/MaterialUI";
 import { useNavigate } from "react-router-dom";
 
@@ -73,54 +81,229 @@ const CartPage = (props) => {
     );
   }
 
-  return (
-    <Layout>
-      <div className="cartContainer" style={{ alignItems: "flex-start" }}>
-        <Card
-          headerLeft={`My Cart`}
-          headerRight={<div>Deliver to</div>}
-          style={{ width: "calc(100% - 400px)", overflow: "hidden" }}
-        >
-          {Object.keys(cartItems).map((key, index) => (
-            <CartItem
-              key={index}
-              cartItem={cartItems[key]}
-              onQuantityInc={onQuantityIncrement}
-              onQuantityDec={onQuantityDecrement}
-              onRemoveCartItem={onRemoveCartItem}
-            />
-          ))}
+  console.log("CartItem", cartItems);
 
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              background: "#ffffff",
-              justifyContent: "flex-end",
-              boxShadow: "0 0 10px 10px #eee",
-              padding: "10px 0",
-              boxSizing: "border-box",
-            }}
-          >
-            <div style={{ width: "250px" }}>
-              <MaterialButton
-                title="PLACE ORDER"
-                onClick={() => navigate("/checkout")}
-              />
-            </div>
-          </div>
-        </Card>
-        <PriceDetails
-          totalItem={Object.keys(cart.cartItems).reduce(function (qty, key) {
-            return qty + cart.cartItems[key].qty;
-          }, 0)}
-          totalPrice={Object.keys(cart.cartItems).reduce((totalPrice, key) => {
-            const { price, qty } = cart.cartItems[key];
-            return totalPrice + price * qty;
-          }, 0)}
+  return (
+    <Fragment>
+      <MetaTags>
+        <title>Flone | Cart</title>
+        <meta
+          name="description"
+          content="Cart page of flone react minimalist eCommerce template."
         />
-      </div>
-    </Layout>
+      </MetaTags>
+      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
+      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/cart"}>
+        Cart
+      </BreadcrumbsItem>
+
+      <LayoutOne
+        headerContainerClass="container-fluid"
+        headerPaddingClass="header-padding-1"
+      >
+        <Breadcrumb />
+        <div className="cart-main-area pt-90 pb-100">
+          <div className="container">
+            {cartItems && Object.keys(cartItems).length >= 1 ? (
+              <Fragment>
+                <h3 className="cart-page-title">Your cart items</h3>
+                <div className="row">
+                  <div className="col-12">
+                    <div className="table-content table-responsive cart-table-content">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th>Image</th>
+                            <th>Product Name</th>
+                            <th>Unit Price</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                            <th>action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {Object.keys(cartItems).map((key, index) => {
+                            {
+                              /* const discountedPrice = getDiscountPrice(
+                              cartItem.price,
+                              cartItem.discount
+                            );
+                            const finalProductPrice = (
+                              cartItem.price * currency.currencyRate
+                            ).toFixed(2);
+                            const finalDiscountedPrice = (
+                              discountedPrice * currency.currencyRate
+                            ).toFixed(2);
+
+                            discountedPrice != null
+                              ? (cartTotalPrice +=
+                                  finalDiscountedPrice * cartItem.quantity)
+                              : (cartTotalPrice +=
+                                  finalProductPrice * cartItem.quantity); */
+                            }
+                            return (
+                              <CartItem
+                                key={index}
+                                cartItem={cartItems[key]}
+                                onQuantityInc={onQuantityIncrement}
+                                onQuantityDec={onQuantityDecrement}
+                                onRemoveCartItem={onRemoveCartItem}
+                              />
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div className="cart-shiping-update-wrapper">
+                      <div className="cart-shiping-update">
+                        <Link
+                          to={process.env.PUBLIC_URL + "/shop-grid-standard"}
+                        >
+                          Continue Shopping
+                        </Link>
+                      </div>
+                      <div className="cart-clear">
+                        <button
+                        //  onClick={() => deleteAllFromCart(addToast)}
+                        >
+                          Clear Shopping Cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-lg-4 col-md-6">
+                    <div className="cart-tax">
+                      <div className="title-wrap">
+                        <h4 className="cart-bottom-title section-bg-gray">
+                          Estimate Shipping And Tax
+                        </h4>
+                      </div>
+                      <div className="tax-wrapper">
+                        <p>
+                          Enter your destination to get a shipping estimate.
+                        </p>
+                        <div className="tax-select-wrapper">
+                          <div className="tax-select">
+                            <label>* Country</label>
+                            <select className="email s-email s-wid">
+                              <option>Bangladesh</option>
+                              <option>Albania</option>
+                              <option>Åland Islands</option>
+                              <option>Afghanistan</option>
+                              <option>Belgium</option>
+                            </select>
+                          </div>
+                          <div className="tax-select">
+                            <label>* Region / State</label>
+                            <select className="email s-email s-wid">
+                              <option>Bangladesh</option>
+                              <option>Albania</option>
+                              <option>Åland Islands</option>
+                              <option>Afghanistan</option>
+                              <option>Belgium</option>
+                            </select>
+                          </div>
+                          <div className="tax-select">
+                            <label>* Zip/Postal Code</label>
+                            <input type="text" />
+                          </div>
+                          <button className="cart-btn-2" type="submit">
+                            Get A Quote
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-4 col-md-6">
+                    <div className="discount-code-wrapper">
+                      <div className="title-wrap">
+                        <h4 className="cart-bottom-title section-bg-gray">
+                          Use Coupon Code
+                        </h4>
+                      </div>
+                      <div className="discount-code">
+                        <p>Enter your coupon code if you have one.</p>
+                        <form>
+                          <input type="text" required name="name" />
+                          <button className="cart-btn-2" type="submit">
+                            Apply Coupon
+                          </button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-4 col-md-12">
+                    <div className="grand-totall">
+                      <div className="title-wrap">
+                        <h4 className="cart-bottom-title section-bg-gary-cart">
+                          Cart Total
+                        </h4>
+                      </div>
+                      <h5>
+                        Total products{" "}
+                        <span>
+                          {Object.keys(cart.cartItems).reduce(function (
+                            qty,
+                            key
+                          ) {
+                            return qty + cart.cartItems[key].qty;
+                          },
+                          0)}
+                        </span>
+                      </h5>
+
+                      <h4 className="grand-totall-title">
+                        Grand Total{" "}
+                        <span>
+                          {(+Object.keys(cart.cartItems).reduce(
+                            (totalPrice, key) => {
+                              const { price, qty } = cart.cartItems[key];
+                              return totalPrice + price * qty;
+                            },
+                            0
+                          )).toLocaleString("vi", {
+                            style: "currency",
+                            currency: "VND",
+                          })}
+                        </span>
+                      </h4>
+                      <Link to={process.env.PUBLIC_URL + "/checkout"}>
+                        Proceed to Checkout
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </Fragment>
+            ) : (
+              <div className="row">
+                <div className="col-lg-12">
+                  <div className="item-empty-area text-center">
+                    <div className="item-empty-area__icon mb-30">
+                      <i className="pe-7s-cart"></i>
+                    </div>
+                    <div className="item-empty-area__text">
+                      No items found in cart <br />{" "}
+                      <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
+                        Shop Now
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </LayoutOne>
+    </Fragment>
   );
 };
 

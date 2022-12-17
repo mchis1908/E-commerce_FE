@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { generatePublicUrl } from "../../../urlConfig";
-import "./style.css";
+import { Link } from "react-router-dom";
+
+// import "./style.css";
 /**
  * @author
  * @function CartItem
@@ -20,39 +22,125 @@ const CartItem = (props) => {
     props.onQuantityDec(_id, qty - 1);
   };
   return (
-    <div className="cartItemContainer">
-      <div className="flexRow">
-        <div className="cartProImgContainer">
-          <img src={generatePublicUrl(img)} alt={""} />
+    <tr key={props.key}>
+      <td className="product-thumbnail">
+        <Link to={process.env.PUBLIC_URL + "/product/" + "id"}>
+          <img className="img-fluid" src={generatePublicUrl(img)} alt="" />
+        </Link>
+      </td>
+
+      <td className="product-name">
+        <Link to={process.env.PUBLIC_URL + "/product/" + "id"}>{name}</Link>
+        {/* {cartItem.selectedProductColor &&
+      cartItem.selectedProductSize ? (
+        <div className="cart-item-variation">
+          <span>
+            Color: {cartItem.selectedProductColor}
+          </span>
+          <span>
+            Size: {cartItem.selectedProductSize}
+          </span>
         </div>
-        <div className="cartItemDetails">
-          <div>
-            <p>{name}</p>
-            <p>{price} VND</p>
-          </div>
-          <div>Delivery in 3 - 5 days</div>
+      ) : (
+        ""
+      )} */}
+      </td>
+
+      <td className="product-price-cart">
+        {/* {discountedPrice !== null ? (
+        <Fragment>
+          <span className="amount old">
+            {currency.currencySymbol +
+              finalProductPrice}
+          </span>
+          <span className="amount">
+            {currency.currencySymbol +
+              finalDiscountedPrice}
+          </span>
+        </Fragment>
+      ) : (
+        <span className="amount">
+          {currency.currencySymbol +
+            finalProductPrice}
+        </span>
+      )} */}
+        <span className="amount">
+          {(+price).toLocaleString("vi", {
+            style: "currency",
+            currency: "VND",
+          })}
+        </span>
+      </td>
+
+      <td className="product-quantity">
+        <div className="cart-plus-minus">
+          <button
+            className="dec qtybutton"
+            // onClick={() => {
+            //   decreaseQuantity(cartItem, addToast)
+            // }}
+            onClick={onQuantityDecrement}
+          >
+            -
+          </button>
+          <input
+            className="cart-plus-minus-box"
+            type="text"
+            value={qty}
+            readOnly
+          />
+          <button
+            className="inc qtybutton"
+            // onClick={() => {
+            //   addToCart(
+            //     cartItem,
+            //     addToast,
+            //     quantityCount
+            //   )
+            // }}
+            onClick={onQuantityIncrement}
+            // disabled={
+            //   cartItem !== undefined &&
+            //   cartItem.quantity &&
+            //   cartItem.quantity >=
+            //     cartItemStock(
+            //       cartItem,
+            //       cartItem.selectedProductColor,
+            //       cartItem.selectedProductSize
+            //     )
+            // }
+          >
+            +
+          </button>
         </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          margin: "5px 0",
-        }}
-      >
-        <div className="quantityControl">
-          <button onClick={onQuantityDecrement}>-</button>
-          <input value={qty} readOnly />
-          <button onClick={onQuantityIncrement}>+</button>
-        </div>
-        <button className="cartActionBtn">save for later</button>
+      </td>
+      <td className="product-subtotal">
+        {/* {discountedPrice !== null
+        ? currency.currencySymbol +
+          (
+            finalDiscountedPrice * cartItem.quantity
+          ).toFixed(2)
+        : currency.currencySymbol +
+          (
+            finalProductPrice * cartItem.quantity
+          ).toFixed(2)} */}
+        {(+(price * qty)).toLocaleString("vi", {
+          style: "currency",
+          currency: "VND",
+        })}
+      </td>
+
+      <td className="product-remove">
         <button
-          className="cartActionBtn"
+          // onClick={() => {
+          //   deleteFromCart(cartItem, addToast)
+          // }}
           onClick={() => props.onRemoveCartItem(_id)}
         >
-          Remove
+          <i className="fa fa-times"></i>
         </button>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
 

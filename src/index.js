@@ -1,15 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import store from './store';
+import "react-app-polyfill/ie11";
+import "react-app-polyfill/stable";
+import React from "react";
+import ReactDOM from "react-dom/client";
+// import "./index.css";
+import App from "./App";
+import "./assets/scss/style.scss";
+import * as serviceWorker from "./serviceWorker";
+
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import store from "./store";
 
 window.store = store;
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <React.StrictMode>
@@ -22,3 +26,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+serviceWorker.unregister();

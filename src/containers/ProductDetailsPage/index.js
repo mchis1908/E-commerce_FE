@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetailsById } from "../../actions";
 import Layout from "../../components/Layout";
@@ -6,10 +6,19 @@ import { IoIosArrowForward, IoIosStar, IoMdCart } from "react-icons/io";
 // import { TbCurrencyDogecoin } from 'react-icons/tb';
 import { AiFillThunderbolt } from "react-icons/ai";
 import { MaterialButton } from "../../components/MaterialUI";
-import "./style.css";
+// import "./style.css";
 import { generatePublicUrl } from "../../urlConfig";
 import { useNavigate, useParams } from "react-router-dom";
 import { addToCart } from "../../actions/cart.action";
+import PropTypes from "prop-types";
+import MetaTags from "react-meta-tags";
+import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
+import { connect } from "react-redux";
+import LayoutOne from "../../layouts/LayoutOne";
+import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import RelatedProductSlider from "../../wrappers/product/RelatedProductSlider";
+import ProductDescriptionTab from "../../wrappers/product/ProductDescriptionTab";
+import ProductImageDescription from "../../wrappers/product/ProductImageDescription";
 
 /**
  * @author
@@ -20,9 +29,11 @@ const ProductDetailsPage = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
+  console.log("PRODUCT", product);
   const { productId } = useParams();
 
   useEffect(() => {
+    // window.location.reload(true);
     const payload = {
       params: {
         productId,
@@ -34,145 +45,47 @@ const ProductDetailsPage = (props) => {
   if (Object.keys(product.productDetails).length === 0) {
     return null;
   }
-
   return (
-    <Layout>
-      {/* <div>{product.productDetails.name}</div> */}
-      <div className="productDescriptionContainer">
-        <div className="flexRow">
-          <div className="verticalImageStack">
-            {product.productDetails.productPictures.map((thumb, index) => (
-              <div className="thumbnail">
-                <img src={generatePublicUrl(thumb.img)} alt={thumb.img} />
-              </div>
-            ))}
-            {/* <div className="thumbnail active">
-                            {
-                                product.productDetails.productPictures.map((thumb, index) =>
-                                    <img src={generatePublicUrl(thumb.img)} alt={thumb.img} />)
-                            }
-                        </div> */}
-          </div>
-          <div className="productDescContainer">
-            <div className="productDescImgContainer">
-              <img
-                src={generatePublicUrl(
-                  product.productDetails.productPictures[0].img
-                )}
-                alt={`${product.productDetails.productPictures[0].img}`}
-              />
-            </div>
+    <Fragment>
+      <MetaTags>
+        <title>Flone | Product Page</title>
+        <meta
+          name="description"
+          content="Product page of flone react minimalist eCommerce template."
+        />
+      </MetaTags>
+      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
+      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/product"}>
+        Shop Product
+      </BreadcrumbsItem>
+      <LayoutOne
+        headerContainerClass="container-fluid"
+        headerPaddingClass="header-padding-1"
+      >
+        <Breadcrumb />
 
-            {/* action buttons */}
-            <div className="flexRow">
-              <MaterialButton
-                title="ADD TO CART"
-                bgColor="#ff9f00"
-                textColor="#ffffff"
-                style={{
-                  marginRight: "5px",
-                }}
-                icon={<IoMdCart />}
-                onClick={() => {
-                  const { _id, name, price } = product.productDetails;
-                  const img = product.productDetails.productPictures[0].img;
-                  dispatch(addToCart({ _id, name, price, img }));
-                  navigate(`/cart`);
-                }}
-              />
-              <MaterialButton
-                title="BUY NOW"
-                bgColor="#fb641b"
-                textColor="#ffffff"
-                style={{
-                  marginLeft: "5px",
-                }}
-                icon={<AiFillThunderbolt />}
-              />
-            </div>
-          </div>
-        </div>
-        <div>
-          {/* home > category > subCategory > productName */}
-          <div className="breed">
-            <ul>
-              <li>
-                <a href="#">Home</a>
-                <IoIosArrowForward />
-              </li>
-              <li>
-                <a href="#">Laptop</a>
-                <IoIosArrowForward />
-              </li>
-              <li>
-                <a href="#">Laptop theo thương hiệu</a>
-                <IoIosArrowForward />
-              </li>
-              <li>
-                <a href="#">Acer</a>
-                <IoIosArrowForward />
-              </li>
-              <li>
-                <a href="#">{product.productDetails.name}</a>
-              </li>
-            </ul>
-          </div>
-          {/* product description */}
-          <div className="productDetails">
-            <p className="productTitle">{product.productDetails.name}</p>
-            <div>
-              <span className="ratingCount">
-                4.3 <IoIosStar />
-              </span>
-              <span className="ratingNumbersReviews">
-                72,234 Ratings & 8,140 Reviews
-              </span>
-            </div>
-            <div className="extraOffer">Extra 900.000 đ off </div>
-            <div className="flexRow priceContainer">
-              <span className="price">{product.productDetails.price} đ</span>
-              <span className="discount" style={{ margin: "0 10px" }}>
-                22% off
-              </span>
-              {/* <span>i</span> */}
-            </div>
-            <div>
-              <p
-                style={{
-                  color: "#212121",
-                  fontSize: "14px",
-                  fontWeight: "600",
-                }}
-              >
-                Available Offers
-              </p>
-              <p style={{ display: "flex" }}>
-                <span
-                  style={{
-                    width: "100px",
-                    fontSize: "12px",
-                    color: "#878787",
-                    fontWeight: "600",
-                    marginRight: "20px",
-                  }}
-                >
-                  Description
-                </span>
-                <span
-                  style={{
-                    fontSize: "12px",
-                    color: "#212121",
-                    whiteSpace: "pre-line",
-                  }}
-                >
-                  {product.productDetails.description}
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Layout>
+        {/* product description with image */}
+        <ProductImageDescription
+          spaceTopClass="pt-100"
+          spaceBottomClass="pb-100"
+          product={product.productDetails}
+          productId={productId}
+        />
+
+        {/* product description tab */}
+        <ProductDescriptionTab
+          spaceBottomClass="pb-90"
+          productFullDesc={product.productDetails.description}
+        />
+
+        {/* related product slider */}
+        <RelatedProductSlider
+          spaceBottomClass="pb-95"
+          category={"dsajodlaksj"}
+          slug={product.productDetails.category.slug}
+        />
+      </LayoutOne>
+    </Fragment>
   );
 };
 

@@ -1,15 +1,36 @@
-import React from 'react'
-import Layout from '../../components/Layout'
-
-
+import React, { Fragment } from "react";
+import { MetaTags } from "react-meta-tags";
+import LayoutOne from "../../layouts/LayoutOne";
+import HeroSliderOne from "../../wrappers/hero-slider/HeroSliderOne";
+import FeatureIcon from "../../wrappers/feature-icon/FeatureIcon";
+import TabProduct from "../../wrappers/product/TabProduct";
+import Layout from "../../components/Layout";
 
 const HomePage = (props) => {
-    return (
-        <Layout>
-            HomePage
-        </Layout>
-    )
-}
+  return (
+    <Fragment>
+      <MetaTags>
+        <title>Flone | Ecommerce Home</title>
+        <meta
+          name="description"
+          content="Fashion home of flone react minimalist eCommerce template."
+        />
+      </MetaTags>
+      <LayoutOne
+        headerContainerClass="container-fluid"
+        headerPaddingClass="header-padding-1"
+      >
+        {/* hero slider */}
+        <HeroSliderOne />
 
+        {/* featured icon */}
+        <FeatureIcon spaceTopClass="pt-100" spaceBottomClass="pb-60" />
 
-export default HomePage
+        {/* tab product */}
+        <TabProduct spaceBottomClass="pb-60" category="fashion" />
+      </LayoutOne>
+    </Fragment>
+  );
+};
+
+export default HomePage;

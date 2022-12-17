@@ -22,7 +22,7 @@ const ProductListPage = (props) => {
     }
     return content;
   };
-  return <Layout>{renderProduct()}</Layout>;
+  return <div>{renderProduct()}</div>;
 };
 
 export default ProductListPage;
