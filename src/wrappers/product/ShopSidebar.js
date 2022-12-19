@@ -3,7 +3,13 @@ import React from "react";
 import ShopSearch from "../../components/product/ShopSearch";
 import ShopCategories from "../../components/product/ShopCategories";
 
-const ShopSidebar = ({ products, getSortParams, sideSpaceClass, product }) => {
+const ShopSidebar = ({
+  products,
+  getSortParams,
+  sideSpaceClass,
+  product,
+  getSearchParams,
+}) => {
   //   const uniqueCategories = getIndividualCategories(products);
   const priceRange = product.priceRange;
   const uniqueCategories = [];
@@ -21,7 +27,7 @@ const ShopSidebar = ({ products, getSortParams, sideSpaceClass, product }) => {
   return (
     <div className={`sidebar-style ${sideSpaceClass ? sideSpaceClass : ""}`}>
       {/* shop search */}
-      <ShopSearch />
+      <ShopSearch getSearchParams={getSearchParams} />
 
       {/* filter by categories */}
       <ShopCategories

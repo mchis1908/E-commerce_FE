@@ -32,6 +32,8 @@ const ProductStore = (props) => {
   const [sortValue, setSortValue] = useState("");
   const [filterSortType, setFilterSortType] = useState("");
   const [filterSortValue, setFilterSortValue] = useState("");
+  const [searchType, setSearchType] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [currentData, setCurrentData] = useState([]);
@@ -43,8 +45,6 @@ const ProductStore = (props) => {
   };
 
   const getSortParams = (sortType, sortValue) => {
-    console.log("SortType", sortType);
-    console.log("SortValue", sortValue);
     setSortType(sortType);
     setSortValue(sortValue);
   };
@@ -53,6 +53,14 @@ const ProductStore = (props) => {
     setFilterSortType(sortType);
     setFilterSortValue(sortValue);
   };
+
+  const getSearchParams = (sortType, sortValue) => {
+    console.log("TTTT", sortType);
+    console.log("VVV", sortValue);
+    setSearchType(sortType);
+    setSearchValue(sortValue);
+  };
+
   // const [priceRange, setPriceRange] = useState({
   //   under2000k: 2,
   //   under5000k: 5,
@@ -67,6 +75,8 @@ const ProductStore = (props) => {
   const dispatch = useDispatch();
 
   const getSortedProducts = (products, sortType, sortValue) => {
+    console.log("TYPE", sortType);
+    console.log("VALUE", sortValue);
     if (sortType === "filterSort") {
       if (sortValue === "priceHighToLow") {
         return products.sort((a, b) => b.price - a.price);
@@ -77,6 +87,14 @@ const ProductStore = (props) => {
       }
     } else if (sortType === "category") {
       return products.filter((product) => product.price <= sortValue);
+    } else if (sortType === "search") {
+      if (sortValue) {
+        return products.filter((product) =>
+          product.name.toLowerCase().includes(sortValue.toLowerCase())
+        );
+      } else {
+        return products;
+      }
     }
     return products;
   };
@@ -94,9 +112,24 @@ const ProductStore = (props) => {
       filterSortValue
     );
     sortedProducts = filterSortedProducts;
+    const searchSortedProducts = getSortedProducts(
+      sortedProducts,
+      searchType,
+      searchValue
+    );
+    sortedProducts = searchSortedProducts;
     setSortedProducts(sortedProducts);
     setCurrentData(sortedProducts.slice(offset, offset + pageLimit));
-  }, [offset, product, sortType, sortValue, filterSortType, filterSortValue]);
+  }, [
+    offset,
+    product,
+    sortType,
+    sortValue,
+    filterSortType,
+    filterSortValue,
+    searchType,
+    searchValue,
+  ]);
   return (
     <Fragment>
       <MetaTags>
@@ -124,6 +157,7 @@ const ProductStore = (props) => {
                 <ShopSidebar
                   products={product.products}
                   getSortParams={getSortParams}
+                  getSearchParams={getSearchParams}
                   sideSpaceClass="mr-30"
                   product={product}
                 />

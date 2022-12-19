@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import MenuCart from "./sub-components/MenuCart";
@@ -13,12 +13,17 @@ const IconGroup = ({
   deleteFromCart,
   iconWhiteClass,
 }) => {
+  const [searchValue, setSearchValue] = useState("");
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
   const handleClick = (e) => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
+
+  const handleSearch = ()=>{
+    
+  }
 
   const triggerMobileMenu = () => {
     const offcanvasMobileMenu = document.querySelector(
@@ -41,7 +46,12 @@ const IconGroup = ({
         </button>
         <div className="search-content">
           <form action="#">
-            <input type="text" placeholder="Search" />
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
             <button className="button-search">
               <i className="pe-7s-search" />
             </button>
@@ -73,6 +83,11 @@ const IconGroup = ({
             <li>
               <Link to={process.env.PUBLIC_URL + "/"} onClick={logout}>
                 Sign out
+              </Link>
+            </li>
+            <li>
+              <Link to={process.env.PUBLIC_URL + "/account/orders"}>
+                Orders
               </Link>
             </li>
           </ul>

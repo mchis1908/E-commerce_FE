@@ -37,7 +37,8 @@ const LoginRegister = ({ location }) => {
     dispatch(_signup(user));
   };
 
-  const userLogin = () => {
+  const userLogin = (e) => {
+    e.preventDefault();
     if (signup) {
       userSignup();
     } else {

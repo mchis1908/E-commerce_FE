@@ -17,7 +17,8 @@ const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
         <li key={category.name}>
           {category.parentId ? (
             <Link
-              to={`${category.slug}?cid=${category._id}&type=${category.type}`}
+              // to={`${category.slug}?cid=${category._id}&type=${category.type}`}
+              to={`/${category.slug}?cid=${category._id}&type=${category.type}`}
             >
               {" "}
               {category.name}

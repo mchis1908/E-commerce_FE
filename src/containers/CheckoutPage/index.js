@@ -1,4 +1,10 @@
-import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import MetaTags from "react-meta-tags";
+import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
+import LayoutOne from "../../layouts/LayoutOne";
+import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+
+import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrder, getAddress, getCartItems } from "../../actions";
 import Layout from "../../components/Layout";
@@ -44,7 +50,7 @@ const Address = ({
   onAddressSubmit,
 }) => {
   return (
-    <div className="flexRow addressContainer">
+    <div className="flexRow addressContainer" style={{ display: "flex" }}>
       <div>
         <input name="address" onClick={() => selectAddress(adr)} type="radio" />
       </div>
@@ -182,146 +188,193 @@ const CheckoutPage = (props) => {
   }, [user.address]);
   if (confirmOrder) {
     return (
-      <Layout>
-        <Card>
+      <Fragment>
+        <LayoutOne
+          headerContainerClass="container-fluid"
+          headerPaddingClass="header-padding-1"
+        >
+          {" "}
           <div>Thank you</div>
-        </Card>
-      </Layout>
+        </LayoutOne>
+      </Fragment>
     );
   }
   return (
-    <Layout>
-      <div className="cartContainer" style={{ alignItems: "flex-start" }}>
-        <div className="checkoutContainer">
-          {/* check if user logged in or not */}
-          <CheckoutStep
-            stepNumber={"1"}
-            title={"LOGIN"}
-            active={!auth.authenticate}
-            body={
-              auth.authenticate ? (
-                <div className="loggedInId">
-                  <span style={{ fontWeight: 500 }}>{auth.user.fullName}</span>
-                  <span style={{ margin: "0 5px" }}>{auth.user.email}</span>
-                </div>
-              ) : (
-                <div>
-                  <MaterialInput label="Email" />
-                </div>
-              )
-            }
-          />
-          <CheckoutStep
-            stepNumber={"2"}
-            title={"DELIVERY ADDRESS"}
-            active={!confirmAddress && auth.authenticate}
-            body={
-              <>
-                {confirmAddress ? (
-                  <div className="stepCompleted">{`${selectedAddress.name} ${selectedAddress.address} - ${selectedAddress.pinCode}`}</div>
-                ) : (
-                  address.map((adr) => (
-                    <Address
-                      selectAddress={selectAddress}
-                      enableAddressEditForm={enableAddressEditForm}
-                      confirmDeliveryAddress={confirmDeliveryAddress}
-                      onAddressSubmit={onAddressSubmit}
-                      adr={adr}
-                    />
-                  ))
-                )}
-              </>
-            }
-          />
-
-          {/* AddressForm */}
-          {confirmAddress ? null : newAddress ? (
-            <AddressForm onSubmitForm={onAddressSubmit} onCancel={() => {}} />
-          ) : auth.authenticate ? (
-            <CheckoutStep
-              stepNumber={"+"}
-              title={"ADD NEW ADDRESS"}
-              active={false}
-              onClick={() => setNewAddress(true)}
-            />
-          ) : null}
-
-          <CheckoutStep
-            stepNumber={"3"}
-            title={"ORDER SUMMARY"}
-            active={orderSummary}
-            body={
-              orderSummary ? (
-                <CardPage onlyCartItems={true} />
-              ) : orderConfirmation ? (
-                <div className="stepCompleted">
-                  {Object.keys(cart.cartItems).length} items
-                </div>
-              ) : null
-            }
-          />
-          {orderSummary && (
-            <Card
-              style={{
-                margin: "10px 0",
-              }}
-            >
-              <div
-                className="flexRow sb"
-                style={{
-                  padding: "20px",
-                  alignItems: "center",
-                }}
-              >
-                <p style={{ fontSize: "12px" }}>
-                  Order confirmation will be sent to{" "}
-                  <strong>{auth.user.email}</strong>
-                </p>
-                <MaterialButton
-                  title="CONTINUE"
-                  onClick={userOrderConfirmation}
-                  style={{ width: "200px" }}
-                />
-              </div>
-            </Card>
-          )}
-
-          <CheckoutStep
-            stepNumber={"4"}
-            title={"PAYMENT OPTIONS"}
-            active={paymentOption}
-            body={
-              paymentOption && (
-                <div className="stepCompleted">
-                  <div
-                    className="flexRow"
-                    style={{ alignItems: "center", padding: "20px" }}
-                  >
-                    <input type="radio" name="paymentOption" value="cod" />
-                    <div>Cash on delivery</div>
-                  </div>
-                  <MaterialButton
-                    title="CONFIRM ORDER"
-                    onClick={onConfirmOrder}
-                    style={{ width: "200px", margin: "0 0 20px 20px" }}
-                  />
-                </div>
-              )
-            }
-          />
-        </div>
-
-        <PriceDetails
-          totalItem={Object.keys(cart.cartItems).reduce(function (qty, key) {
-            return qty + cart.cartItems[key].qty;
-          }, 0)}
-          totalPrice={Object.keys(cart.cartItems).reduce((totalPrice, key) => {
-            const { price, qty } = cart.cartItems[key];
-            return totalPrice + price * qty;
-          }, 0)}
+    <Fragment>
+      <MetaTags>
+        <title>Flone | Checkout</title>
+        <meta
+          name="description"
+          content="Checkout page of flone react minimalist eCommerce template."
         />
-      </div>
-    </Layout>
+      </MetaTags>
+      <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
+      <BreadcrumbsItem to={process.env.PUBLIC_URL + "checkout"}>
+        Checkout
+      </BreadcrumbsItem>
+      <LayoutOne
+        headerContainerClass="container-fluid"
+        headerPaddingClass="header-padding-1"
+      >
+        <Breadcrumb />
+        <div className="container">
+          <div className="cartContainer" style={{ alignItems: "flex-start" }}>
+            <div className="checkoutContainer">
+              {/* check if user logged in or not */}
+              <CheckoutStep
+                stepNumber={"1"}
+                title={"LOGIN"}
+                active={!auth.authenticate}
+                body={
+                  auth.authenticate ? (
+                    <div className="loggedInId">
+                      <span style={{ fontWeight: 500 }}>
+                        {auth.user.fullName}
+                      </span>
+                      <span style={{ margin: "0 5px" }}>{auth.user.email}</span>
+                    </div>
+                  ) : (
+                    <div>
+                      <MaterialInput label="Email" />
+                    </div>
+                  )
+                }
+              />
+              <CheckoutStep
+                stepNumber={"2"}
+                title={"DELIVERY ADDRESS"}
+                active={!confirmAddress && auth.authenticate}
+                body={
+                  <>
+                    {confirmAddress ? (
+                      <div className="stepCompleted">{`${selectedAddress.name} ${selectedAddress.address} - ${selectedAddress.pinCode}`}</div>
+                    ) : (
+                      address.map((adr) => (
+                        <Address
+                          selectAddress={selectAddress}
+                          enableAddressEditForm={enableAddressEditForm}
+                          confirmDeliveryAddress={confirmDeliveryAddress}
+                          onAddressSubmit={onAddressSubmit}
+                          adr={adr}
+                        />
+                      ))
+                    )}
+                  </>
+                }
+              />
+
+              {/* AddressForm */}
+              {confirmAddress ? null : newAddress ? (
+                <AddressForm
+                  onSubmitForm={onAddressSubmit}
+                  onCancel={() => {}}
+                />
+              ) : auth.authenticate ? (
+                <CheckoutStep
+                  stepNumber={"+"}
+                  title={"ADD NEW ADDRESS"}
+                  active={false}
+                  onClick={() => setNewAddress(true)}
+                />
+              ) : null}
+
+              <CheckoutStep
+                stepNumber={"3"}
+                title={"ORDER SUMMARY"}
+                active={orderSummary}
+                body={
+                  orderSummary ? (
+                    <CardPage onlyCartItems={true} />
+                  ) : orderConfirmation ? (
+                    <div className="stepCompleted">
+                      {Object.keys(cart.cartItems).length} items
+                    </div>
+                  ) : null
+                }
+              />
+              {orderSummary && (
+                <Card
+                  style={{
+                    margin: "10px 0",
+                  }}
+                >
+                  <div
+                    className="flexRow sb"
+                    style={{
+                      padding: "20px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p style={{ fontSize: "12px" }}>
+                      Order confirmation will be sent to{" "}
+                      <strong>{auth.user.email}</strong>
+                    </p>
+                    <MaterialButton
+                      title="CONTINUE"
+                      onClick={userOrderConfirmation}
+                      style={{ width: "200px" }}
+                    />
+                  </div>
+                </Card>
+              )}
+
+              <CheckoutStep
+                stepNumber={"4"}
+                title={"PAYMENT OPTIONS"}
+                active={paymentOption}
+                body={
+                  paymentOption && (
+                    <div className="stepCompleted">
+                      <div
+                        className="flexRow"
+                        style={{
+                          alignItems: "center",
+                          padding: "20px",
+                          display: "flex",
+                        }}
+                      >
+                        <input
+                          type="radio"
+                          name="paymentOption"
+                          value="cod"
+                          id="paymentOption"
+                          style={{
+                            width: "10%",
+                          }}
+                        />
+                        <div>Cash on delivery</div>
+                      </div>
+                      <MaterialButton
+                        title="CONFIRM ORDER"
+                        onClick={onConfirmOrder}
+                        style={{ width: "200px", margin: "0 0 20px 20px" }}
+                      />
+                    </div>
+                  )
+                }
+              />
+            </div>
+
+            <PriceDetails
+              totalItem={Object.keys(cart.cartItems).reduce(function (
+                qty,
+                key
+              ) {
+                return qty + cart.cartItems[key].qty;
+              },
+              0)}
+              totalPrice={Object.keys(cart.cartItems).reduce(
+                (totalPrice, key) => {
+                  const { price, qty } = cart.cartItems[key];
+                  return totalPrice + price * qty;
+                },
+                0
+              )}
+            />
+          </div>
+        </div>
+      </LayoutOne>
+    </Fragment>
   );
 };
 

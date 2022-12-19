@@ -69,14 +69,76 @@ const CartPage = (props) => {
   if (props.onlyCartItems) {
     return (
       <>
-        {Object.keys(cartItems).map((key, index) => (
-          <CartItem
-            key={index}
-            cartItem={cartItems[key]}
-            onQuantityInc={onQuantityIncrement}
-            onQuantityDec={onQuantityDecrement}
-          />
-        ))}
+        <Fragment>
+          <h3 className="cart-page-title">Your cart items</h3>
+          <div className="row">
+            <div className="col-12">
+              <div className="table-content table-responsive cart-table-content">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Image</th>
+                      <th>Product Name</th>
+                      <th>Unit Price</th>
+                      <th>Qty</th>
+                      <th>Subtotal</th>
+                      <th>action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.keys(cartItems).map((key, index) => {
+                      {
+                        /* const discountedPrice = getDiscountPrice(
+                              cartItem.price,
+                              cartItem.discount
+                            );
+                            const finalProductPrice = (
+                              cartItem.price * currency.currencyRate
+                            ).toFixed(2);
+                            const finalDiscountedPrice = (
+                              discountedPrice * currency.currencyRate
+                            ).toFixed(2);
+
+                            discountedPrice != null
+                              ? (cartTotalPrice +=
+                                  finalDiscountedPrice * cartItem.quantity)
+                              : (cartTotalPrice +=
+                                  finalProductPrice * cartItem.quantity); */
+                      }
+                      return (
+                        <CartItem
+                          key={index}
+                          cartItem={cartItems[key]}
+                          onQuantityInc={onQuantityIncrement}
+                          onQuantityDec={onQuantityDecrement}
+                          onRemoveCartItem={onRemoveCartItem}
+                        />
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="cart-shiping-update-wrapper">
+                <div className="cart-shiping-update">
+                  <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
+                    Continue Shopping
+                  </Link>
+                </div>
+                <div className="cart-clear">
+                  <button
+                  //  onClick={() => deleteAllFromCart(addToast)}
+                  >
+                    Clear Shopping Cart
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Fragment>
       </>
     );
   }
