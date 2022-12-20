@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import MenuCart from "./sub-components/MenuCart";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,14 +16,17 @@ const IconGroup = ({
   const [searchValue, setSearchValue] = useState("");
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleClick = (e) => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
 
-  const handleSearch = ()=>{
-    
-  }
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log(searchValue);
+    // navigate(`${searchValue}`);
+    navigate(`${"search"}?${searchValue}`);
+  };
 
   const triggerMobileMenu = () => {
     const offcanvasMobileMenu = document.querySelector(
@@ -52,7 +55,7 @@ const IconGroup = ({
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
-            <button className="button-search">
+            <button className="button-search" onClick={(e) => handleSearch(e)}>
               <i className="pe-7s-search" />
             </button>
           </form>

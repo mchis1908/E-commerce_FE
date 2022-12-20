@@ -124,7 +124,7 @@ const CartPage = (props) => {
             <div className="col-lg-12">
               <div className="cart-shiping-update-wrapper">
                 <div className="cart-shiping-update">
-                  <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
+                  <Link to={process.env.PUBLIC_URL + "/"}>
                     Continue Shopping
                   </Link>
                 </div>
@@ -222,9 +222,7 @@ const CartPage = (props) => {
                   <div className="col-lg-12">
                     <div className="cart-shiping-update-wrapper">
                       <div className="cart-shiping-update">
-                        <Link
-                          to={process.env.PUBLIC_URL + "/shop-grid-standard"}
-                        >
+                        <Link to={process.env.PUBLIC_URL + "/"}>
                           Continue Shopping
                         </Link>
                       </div>

@@ -3,7 +3,9 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllCategory } from "../../actions";
+import { useNavigate } from "react-router-dom";
 const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
+  const navigate = useNavigate();
   const category = useSelector((state) => state.category);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -19,6 +21,11 @@ const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
             <Link
               // to={`${category.slug}?cid=${category._id}&type=${category.type}`}
               to={`/${category.slug}?cid=${category._id}&type=${category.type}`}
+              onClick={() =>
+                navigate(
+                  `/${category.slug}?cid=${category._id}&type=${category.type}`
+                )
+              }
             >
               {" "}
               {category.name}

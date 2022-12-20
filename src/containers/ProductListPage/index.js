@@ -7,19 +7,19 @@ import "./style.css";
 
 const ProductListPage = (props) => {
   const renderProduct = () => {
-    console.log(window.location.search);
+    console.log("WINDOW SEARCH", window.location.pathname);
     const params = getParams(window.location.search);
     let content = null;
-    switch (params.type) {
-      case "store":
-        content = <ProductStore {...props} />;
-        break;
-      case "page":
-        content = <ProductPage {...props} />;
-        break;
-      default:
-        content = null;
-    }
+    // switch (params.type) {
+    //   case "store":
+    content = <ProductStore {...props} />;
+    //     break;
+    //   case "page":
+    //     content = <ProductPage {...props} />;
+    //     break;
+    //   default:
+    //     content = null;
+    // }
     return content;
   };
   return <div>{renderProduct()}</div>;

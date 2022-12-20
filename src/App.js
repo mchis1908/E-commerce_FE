@@ -18,6 +18,7 @@ import OrderPage from "./containers/OrderPage";
 import OrderDetailsPage from "./containers/OrderDetailsPage";
 import LoginRegister from "./containers/other/LoginRegister";
 import MyAccount from "./containers/other/MyAccount";
+import About from "./containers/other/About";
 function App(props) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -83,6 +84,7 @@ function App(props) {
                     element={<ProductDetailsPage />}
                   />
                   <Route exact path="/:slug" element={<ProductListPage />} />
+                  <Route exact path="/about" element={<About />} />
                 </Routes>
               </Suspense>
             </ScrollToTop>

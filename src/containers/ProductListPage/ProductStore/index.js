@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsBySlug } from "../../../actions";
+import { getProduct, getProductsBySlug } from "../../../actions";
 import { generatePublicUrl } from "../../../urlConfig";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Card from "../../../components/UI/Card";
 import Rating from "../../../components/UI/Rating";
 import Price from "../../../components/UI/Price";
@@ -17,7 +17,6 @@ import Breadcrumb from "../../../wrappers/breadcrumb/Breadcrumb";
 import ShopSidebar from "../../../wrappers/product/ShopSidebar";
 import ShopTopbar from "../../../wrappers/product/ShopTopbar";
 import ShopProducts from "../../../wrappers/product/ShopProducts";
-
 /**
  * @author
  * @function ProductStore
@@ -25,6 +24,8 @@ import ShopProducts from "../../../wrappers/product/ShopProducts";
 
 const ProductStore = (props) => {
   const product = useSelector((state) => state.product);
+  const location = useLocation();
+
   // console.log(product);
   const products = product.products;
   const [layout, setLayout] = useState("grid three-column");
@@ -100,9 +101,15 @@ const ProductStore = (props) => {
   };
   // Code khác trong video do làm như video không còn được hỗ trợ
   useEffect(() => {
-    console.log(window.location);
-    dispatch(getProductsBySlug(window.location.pathname));
-  }, []);
+    console.log("LOCATION", window.location.search);
+    if (window.location.pathname === "/search") {
+      dispatch(getProduct());
+      setSearchType("search");
+      setSearchValue(window.location.search.slice(1));
+    } else {
+      dispatch(getProductsBySlug(window.location.pathname));
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     let sortedProducts = getSortedProducts(products, sortType, sortValue);

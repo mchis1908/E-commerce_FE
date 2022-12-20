@@ -32,6 +32,16 @@ export default (state = initState, action) => {
         },
       };
       break;
+    case productContants.GET_PRODUCTS:
+      state = {
+        ...state,
+        products: action.payload.products,
+        priceRange: action.payload.priceRange,
+        productsByPrice: {
+          ...action.payload.productsByPrice,
+        },
+      };
+      break;
     case productContants.GET_PRODUCTS_PAGE_REQUEST:
       state = {
         ...state,
