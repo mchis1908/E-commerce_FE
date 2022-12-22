@@ -61,25 +61,25 @@ function ProductModal(props) {
   //   selectedProductColor,
   //   selectedProductSize
   // );
-  useEffect(() => {
-    setWishItems(wish.wishItems);
-  }, [wish.wishItems]);
-  useEffect(() => {
-    setCartItems(cart.cartItems);
-  }, [cart.cartItems]);
-  useEffect(() => {
-    setCompareItems(compare.CompareItems);
-  }, [compare.compareItems]);
-  useEffect(() => {
-    if (auth.authenticate) {
-      dispatch(getWishItems());
-    }
-  }, [auth.authenticate]);
-  useEffect(() => {
-    if (auth.authenticate) {
-      dispatch(getCartItems());
-    }
-  }, [auth.authenticate]);
+  // useEffect(() => {
+  //   setWishItems(wish.wishItems);
+  // }, [wish.wishItems]);
+  // useEffect(() => {
+  //   setCartItems(cart.cartItems);
+  // }, [cart.cartItems]);
+  // useEffect(() => {
+  //   setCompareItems(compare.CompareItems);
+  // }, [compare.compareItems]);
+  // useEffect(() => {
+  //   if (auth.authenticate) {
+  //     dispatch(getWishItems());
+  //   }
+  // }, [auth.authenticate]);
+  // useEffect(() => {
+  //   if (auth.authenticate) {
+  //     dispatch(getCartItems());
+  //   }
+  // }, [auth.authenticate]);
 
   useEffect(() => {
     if (

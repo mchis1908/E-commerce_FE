@@ -30,22 +30,22 @@ const ProductGridListSingle = ({
   const [modalShow, setModalShow] = useState(false);
   const [cartItems, setCartItems] = useState(cart.cartItems);
   const [wishItems, setWishItems] = useState(wish.wishItems);
-  useEffect(() => {
-    setWishItems(wish.wishItems);
-  }, [wish.wishItems]);
-  useEffect(() => {
-    setCartItems(cart.cartItems);
-  }, [cart.cartItems]);
-  useEffect(() => {
-    if (auth.authenticate) {
-      dispatch(getWishItems());
-    }
-  }, [auth.authenticate]);
-  useEffect(() => {
-    if (auth.authenticate) {
-      dispatch(getCartItems());
-    }
-  }, [auth.authenticate]);
+  // useEffect(() => {
+  //   setWishItems(wish.wishItems);
+  // }, [wish.wishItems]);
+  // useEffect(() => {
+  //   setCartItems(cart.cartItems);
+  // }, [cart.cartItems]);
+  // useEffect(() => {
+  //   if (auth.authenticate) {
+  //     dispatch(getWishItems());
+  //   }
+  // }, [auth.authenticate]);
+  // useEffect(() => {
+  //   if (auth.authenticate) {
+  //     dispatch(getCartItems());
+  //   }
+  // }, [auth.authenticate]);
   const { addToast } = useToasts();
 
   const toDay = new Date();
