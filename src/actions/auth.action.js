@@ -1,5 +1,10 @@
 import axios from "../helpers/axios";
-import { authConstants, cartConstants } from "./constants";
+import {
+  authConstants,
+  cartConstants,
+  wishConstants,
+  compareConstants,
+} from "./constants";
 
 export const signup = (user) => {
   return async (dispatch) => {
@@ -86,6 +91,8 @@ export const signout = () => {
     localStorage.clear();
     dispatch({ type: authConstants.LOGOUT_SUCCESS });
     dispatch({ type: cartConstants.RESET_CART });
+    dispatch({ type: wishConstants.RESET_WISH });
+    dispatch({ type: compareConstants.RESET_COMPARE });
     // const res = await axios.post('/admin/signout');
 
     // if (res.status === 200) {

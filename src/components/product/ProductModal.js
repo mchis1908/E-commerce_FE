@@ -5,7 +5,14 @@ import { getProductCartQuantity } from "../../helpers/product";
 import { generatePublicUrl } from "../../urlConfig";
 import { Modal } from "react-bootstrap";
 import Rating from "./sub-components/ProductRating";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { getWishItems } from "../../actions/wish.action";
+import { getCompareItems } from "../../actions/compare.action";
+
+import { getCartItems } from "../../actions/cart.action";
+import { addToCart } from "../../actions/cart.action";
+import { addToWish } from "../../actions/wish.action";
+import { addToCompare } from "../../actions/compare.action";
 
 function ProductModal(props) {
   const { product } = props;
@@ -13,6 +20,14 @@ function ProductModal(props) {
   // const { discountedprice } = props;
   // const { finalproductprice } = props;
   // const { finaldiscountedprice } = props;
+  const wish = useSelector((state) => state.wish);
+  const compare = useSelector((state) => state.compare);
+
+  const cart = useSelector((state) => state.cart);
+  const auth = useSelector((state) => state.auth);
+  const [cartItems, setCartItems] = useState(cart.cartItems);
+  const [wishItems, setWishItems] = useState(wish.wishItems);
+  const [compareItems, setCompareItems] = useState(compare.compareItems);
 
   const [gallerySwiper, getGallerySwiper] = useState(null);
   const [thumbnailSwiper, getThumbnailSwiper] = useState(null);
@@ -36,6 +51,8 @@ function ProductModal(props) {
   // const addToCompare = props.addtocompare;
 
   const addToast = props.addtoast;
+  const dispatch = useDispatch();
+
   // const cartItems = props.cartitems;
 
   // const productCartQty = getProductCartQuantity(
@@ -44,6 +61,25 @@ function ProductModal(props) {
   //   selectedProductColor,
   //   selectedProductSize
   // );
+  useEffect(() => {
+    setWishItems(wish.wishItems);
+  }, [wish.wishItems]);
+  useEffect(() => {
+    setCartItems(cart.cartItems);
+  }, [cart.cartItems]);
+  useEffect(() => {
+    setCompareItems(compare.CompareItems);
+  }, [compare.compareItems]);
+  useEffect(() => {
+    if (auth.authenticate) {
+      dispatch(getWishItems());
+    }
+  }, [auth.authenticate]);
+  useEffect(() => {
+    if (auth.authenticate) {
+      dispatch(getCartItems());
+    }
+  }, [auth.authenticate]);
 
   useEffect(() => {
     if (
@@ -329,36 +365,100 @@ function ProductModal(props) {
                       ) : (
                         <button disabled>Out of Stock</button>
                       )} */}
-                      <button> Add To Cart </button>
-                    </div>
-                    {/* <div className="pro-details-wishlist">
+                      {/* <button> Add To Cart </button> */}
                       <button
-                        className={wishlistItem !== undefined ? "active" : ""}
-                        disabled={wishlistItem !== undefined}
+                        onClick={() => {
+                          const { _id, name, price } = product;
+                          const img = product.productPictures[0].img;
+                          dispatch(addToCart({ _id, name, price, img }));
+                          // navigate(`/cart`);
+                          // addToCart(product, addToast)}a
+                        }}
+                        className={
+                          cartItems[product._id] !== undefined &&
+                          cartItems[product._id].qty > 0
+                            ? "active"
+                            : ""
+                        }
+                        disabled={
+                          cartItems[product._id] !== undefined &&
+                          cartItems[product._id].qty > 0
+                        }
                         title={
-                          wishlistItem !== undefined
+                          cartItems[product._id] !== undefined
+                            ? "Added to cart"
+                            : "Add to cart"
+                        }
+                      >
+                        {" "}
+                        <i className="pe-7s-cart"></i>{" "}
+                        {cartItems[product._id] !== undefined &&
+                        cartItems[product._id].qty > 0
+                          ? "Added"
+                          : "Add to cart"}
+                      </button>
+                    </div>
+                    <div className="pro-details-wishlist">
+                      <button
+                        className={
+                          wishItems[product._id] !== undefined ? "active" : ""
+                        }
+                        disabled={wishItems[product._id] !== undefined}
+                        title={
+                          wishItems[product._id] !== undefined
                             ? "Added to wishlist"
                             : "Add to wishlist"
                         }
-                        onClick={() => addToWishlist(product, addToast)}
+                        // onClick={() => addToWishlist(product, addToast)}
+                        onClick={() => {
+                          const { _id, name, price } = product;
+                          const img = product.productPictures[0].img;
+                          dispatch(addToWish({ _id, name, price, img }));
+                          // navigate(`/cart`);
+                          // addToCart(product, addToast)}a
+                        }}
                       >
                         <i className="pe-7s-like" />
                       </button>
-                    </div> */}
-                    {/* <div className="pro-details-compare">
+                    </div>
+                    <div className="pro-details-compare">
                       <button
-                        className={compareItem !== undefined ? "active" : ""}
-                        disabled={compareItem !== undefined}
+                        className={
+                          compareItems &&
+                          compareItems[product._id] !== undefined
+                            ? "active"
+                            : ""
+                        }
+                        disabled={
+                          compareItems &&
+                          compareItems[product._id] !== undefined
+                        }
                         title={
-                          compareItem !== undefined
+                          compareItems &&
+                          compareItems[product._id] !== undefined
                             ? "Added to compare"
                             : "Add to compare"
                         }
-                        onClick={() => addToCompare(product, addToast)}
+                        onClick={() => {
+                          console.log("PPPP", product);
+                          const { _id, name, price, description, slug } =
+                            product;
+                          const img = product.productPictures[0].img;
+                          dispatch(
+                            addToCompare({
+                              _id,
+                              name,
+                              price,
+                              img,
+                              description,
+                              slug,
+                            })
+                          );
+                        }}
                       >
                         <i className="pe-7s-shuffle" />
                       </button>
-                    </div> */}
+                    </div>
                   </div>
                 )}
               </div>
@@ -388,9 +488,9 @@ ProductModal.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  return {
-    cartitems: state.cartData,
-  };
+  // return {
+  //   cartitems: state.cartData,
+  // };
 };
 
 export default connect(mapStateToProps)(ProductModal);

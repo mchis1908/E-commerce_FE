@@ -19,6 +19,8 @@ import OrderDetailsPage from "./containers/OrderDetailsPage";
 import LoginRegister from "./containers/other/LoginRegister";
 import MyAccount from "./containers/other/MyAccount";
 import About from "./containers/other/About";
+import Wishlist from "./containers/other/Wishlist";
+import Compare from "./containers/other/Compare";
 function App(props) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
@@ -85,6 +87,8 @@ function App(props) {
                   />
                   <Route exact path="/:slug" element={<ProductListPage />} />
                   <Route exact path="/about" element={<About />} />
+                  <Route exact path="/wishlist" element={<Wishlist />} />
+                  <Route exact path="/compare" element={<Compare />} />
                 </Routes>
               </Suspense>
             </ScrollToTop>

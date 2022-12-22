@@ -1,11 +1,14 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import { generatePublicUrl } from "../../urlConfig";
 import Rating from "./sub-components/ProductRating";
 import ProductModal from "./ProductModal";
 import { addToCart } from "../../actions/cart.action";
+import { addToWish } from "../../actions/wish.action";
+import { getWishItems } from "../../actions/wish.action";
+import { getCartItems } from "../../actions/cart.action";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 const ProductGridListSingle = ({
@@ -21,8 +24,28 @@ const ProductGridListSingle = ({
   spaceBottomClass,
 }) => {
   const dispatch = useDispatch();
-
+  const wish = useSelector((state) => state.wish);
+  const cart = useSelector((state) => state.cart);
+  const auth = useSelector((state) => state.auth);
   const [modalShow, setModalShow] = useState(false);
+  const [cartItems, setCartItems] = useState(cart.cartItems);
+  const [wishItems, setWishItems] = useState(wish.wishItems);
+  useEffect(() => {
+    setWishItems(wish.wishItems);
+  }, [wish.wishItems]);
+  useEffect(() => {
+    setCartItems(cart.cartItems);
+  }, [cart.cartItems]);
+  useEffect(() => {
+    if (auth.authenticate) {
+      dispatch(getWishItems());
+    }
+  }, [auth.authenticate]);
+  useEffect(() => {
+    if (auth.authenticate) {
+      dispatch(getCartItems());
+    }
+  }, [auth.authenticate]);
   const { addToast } = useToasts();
 
   const toDay = new Date();
@@ -96,14 +119,23 @@ const ProductGridListSingle = ({
             <div className="product-action">
               <div className="pro-same-action pro-wishlist">
                 <button
-                  className={wishlistItem !== undefined ? "active" : ""}
-                  disabled={wishlistItem !== undefined}
+                  className={
+                    wishItems[product._id] !== undefined ? "active" : ""
+                  }
+                  disabled={wishItems[product._id] !== undefined}
                   title={
-                    wishlistItem !== undefined
+                    wishItems[product._id] !== undefined
                       ? "Added to wishlist"
                       : "Add to wishlist"
                   }
                   //   onClick={() => addToWishlist(product, addToast)}
+                  onClick={() => {
+                    const { _id, name, price } = product;
+                    const img = product.productPictures[0].img;
+                    dispatch(addToWish({ _id, name, price, img }));
+                    // navigate(`/cart`);
+                    // addToCart(product, addToast)}a
+                  }}
                 >
                   <i className="pe-7s-like" />
                 </button>
@@ -131,18 +163,25 @@ const ProductGridListSingle = ({
                       dispatch(addToCart({ _id, name, price, img }));
                     }}
                     className={
-                      cartItem !== undefined && cartItem.quantity > 0
+                      cartItems[product._id] !== undefined &&
+                      cartItems[product._id].qty > 0
                         ? "active"
                         : ""
                     }
-                    disabled={cartItem !== undefined && cartItem.quantity > 0}
+                    disabled={
+                      cartItems[product._id] !== undefined &&
+                      cartItems[product._id].qty > 0
+                    }
                     title={
-                      cartItem !== undefined ? "Added to cart" : "Add to cart"
+                      cartItems[product._id] !== undefined
+                        ? "Added to cart"
+                        : "Add to cart"
                     }
                   >
                     {" "}
                     <i className="pe-7s-cart"></i>{" "}
-                    {cartItem !== undefined && cartItem.quantity > 0
+                    {cartItems[product._id] !== undefined &&
+                    cartItems[product._id].qty > 0
                       ? "Added"
                       : "Add to cart"}
                   </button>
@@ -316,22 +355,25 @@ const ProductGridListSingle = ({
                           dispatch(addToCart({ _id, name, price, img }));
                         }}
                         className={
-                          cartItem !== undefined && cartItem.quantity > 0
+                          cartItems[product._id] !== undefined &&
+                          cartItems[product._id].qty > 0
                             ? "active"
                             : ""
                         }
                         disabled={
-                          cartItem !== undefined && cartItem.quantity > 0
+                          cartItems[product._id] !== undefined &&
+                          cartItems[product._id].qty > 0
                         }
                         title={
-                          cartItem !== undefined
+                          cartItems[product._id] !== undefined
                             ? "Added to cart"
                             : "Add to cart"
                         }
                       >
                         {" "}
                         <i className="pe-7s-cart"></i>{" "}
-                        {cartItem !== undefined && cartItem.quantity > 0
+                        {cartItems[product._id] !== undefined &&
+                        cartItems[product._id].qty > 0
                           ? "Added"
                           : "Add to cart"}
                       </button>
@@ -344,14 +386,23 @@ const ProductGridListSingle = ({
 
                   <div className="shop-list-wishlist ml-10">
                     <button
-                      className={wishlistItem !== undefined ? "active" : ""}
-                      disabled={wishlistItem !== undefined}
+                      className={
+                        wishItems[product._id] !== undefined ? "active" : ""
+                      }
+                      disabled={wishItems[product._id] !== undefined}
                       title={
-                        wishlistItem !== undefined
+                        wishItems[product._id] !== undefined
                           ? "Added to wishlist"
                           : "Add to wishlist"
                       }
-                      onClick={() => addToWishlist(product, addToast)}
+                      // onClick={() => addToWishlist(product, addToast)}
+                      onClick={() => {
+                        const { _id, name, price } = product;
+                        const img = product.productPictures[0].img;
+                        dispatch(addToWish({ _id, name, price, img }));
+                        // navigate(`/cart`);
+                        // addToCart(product, addToast)}a
+                      }}
                     >
                       <i className="pe-7s-like" />
                     </button>
@@ -377,14 +428,14 @@ const ProductGridListSingle = ({
         </div>
       </div>
       {/* product modal */}
-      {/* <ProductModal
+      <ProductModal
         show={modalShow}
         onHide={() => setModalShow(false)}
         product={product}
         currency={currency}
-        discountedprice={discountedPrice}
-        finalproductprice={finalProductPrice}
-        finaldiscountedprice={finalDiscountedPrice}
+        // discountedprice={discountedPrice}
+        // finalproductprice={finalProductPrice}
+        // finaldiscountedprice={finalDiscountedPrice}
         cartitem={cartItem}
         wishlistitem={wishlistItem}
         compareitem={compareItem}
@@ -392,7 +443,7 @@ const ProductGridListSingle = ({
         addtowishlist={addToWishlist}
         addtocompare={addToCompare}
         addtoast={addToast}
-      /> */}
+      />
     </Fragment>
   );
 };

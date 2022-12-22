@@ -15,6 +15,8 @@ const IconGroup = ({
 }) => {
   const [searchValue, setSearchValue] = useState("");
   const cart = useSelector((state) => state.cart);
+  const wish = useSelector((state) => state.wish);
+  const compare = useSelector((state) => state.compare);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleClick = (e) => {
@@ -100,7 +102,8 @@ const IconGroup = ({
         <Link to={process.env.PUBLIC_URL + "/compare"}>
           <i className="pe-7s-shuffle" />
           <span className="count-style">
-            {compareData && compareData.length ? compareData.length : 0}
+            {/* {compareData && compareData.length ? compareData.length : 0} */}
+            {Object.keys(compare.compareItems).length}
           </span>
         </Link>
       </div>
@@ -108,7 +111,8 @@ const IconGroup = ({
         <Link to={process.env.PUBLIC_URL + "/wishlist"}>
           <i className="pe-7s-like" />
           <span className="count-style">
-            {wishlistData && wishlistData.length ? wishlistData.length : 0}
+            {/* {wishlistData && wishlistData.length ? wishlistData.length : 0} */}
+            {Object.keys(wish.wishItems).length}
           </span>
         </Link>
       </div>
