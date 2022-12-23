@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Rating from "./sub-components/ProductRating";
 import { addToCart } from "../../actions/cart.action";
+import { addToWish } from "../../actions/wish.action";
+import { addToCompare } from "../../actions/compare.action";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -19,7 +22,7 @@ const ProductDescriptionInfo = ({
   addToast,
   // addToCart,
   addToWishlist,
-  addToCompare,
+  // addToCompare,
 }) => {
   const [selectedProductColor, setSelectedProductColor] = useState(
     product.variation ? product.variation[0].color : ""
@@ -32,6 +35,10 @@ const ProductDescriptionInfo = ({
   // );
   const [productStock, setProductStock] = useState(product.quantity);
   const [quantityCount, setQuantityCount] = useState(1);
+  const wish = useSelector((state) => state.wish);
+  const compare = useSelector((state) => state.compare);
+  const [wishItems, setWishItems] = useState(wish.wishItems);
+  const [compareItems, setCompareItems] = useState(compare.compareItems);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const productCartQty = getProductCartQuantity(
@@ -237,28 +244,53 @@ const ProductDescriptionInfo = ({
           </div>
           <div className="pro-details-wishlist">
             <button
-              className={wishlistItem !== undefined ? "active" : ""}
-              disabled={wishlistItem !== undefined}
+              className={wishItems[product._id] !== undefined ? "active" : ""}
+              disabled={wishItems[product._id] !== undefined}
               title={
-                wishlistItem !== undefined
+                wishItems[product._id] !== undefined
                   ? "Added to wishlist"
                   : "Add to wishlist"
               }
-              onClick={() => addToWishlist(product, addToast)}
+              // onClick={() => addToWishlist(product, addToast)}
+              onClick={() => {
+                const { _id, name, price } = product;
+                const img = product.productPictures[0].img;
+                dispatch(addToWish({ _id, name, price, img }));
+                // navigate(`/cart`);
+                // addToCart(product, addToast)}a
+              }}
             >
               <i className="pe-7s-like" />
             </button>
           </div>
           <div className="pro-details-compare">
             <button
-              className={compareItem !== undefined ? "active" : ""}
-              disabled={compareItem !== undefined}
+              className={
+                compareItems && compareItems[product._id] !== undefined
+                  ? "active"
+                  : ""
+              }
+              disabled={compareItems && compareItems[product._id] !== undefined}
               title={
-                compareItem !== undefined
+                compareItems && compareItems[product._id] !== undefined
                   ? "Added to compare"
                   : "Add to compare"
               }
-              onClick={() => addToCompare(product, addToast)}
+              // onClick={() => addToCompare(product, addToast)}
+              onClick={() => {
+                const { _id, name, price, description, slug } = product;
+                const img = product.productPictures[0].img;
+                dispatch(
+                  addToCompare({
+                    _id,
+                    name,
+                    price,
+                    img,
+                    description,
+                    slug,
+                  })
+                );
+              }}
             >
               <i className="pe-7s-shuffle" />
             </button>

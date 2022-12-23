@@ -440,7 +440,6 @@ function ProductModal(props) {
                             : "Add to compare"
                         }
                         onClick={() => {
-                          console.log("PPPP", product);
                           const { _id, name, price, description, slug } =
                             product;
                           const img = product.productPictures[0].img;
