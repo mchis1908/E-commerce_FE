@@ -3,7 +3,18 @@ import React from "react";
 import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 
-const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc }) => {
+const ProductDescriptionTab = ({
+  spaceBottomClass,
+  productFullDesc,
+  productReview,
+}) => {
+  const renderStar = (rating) => {
+    const myRating = [];
+    for (let star = 0; star < rating; star++) {
+      myRating.push(<i className="fa fa-star" />);
+    }
+    return myRating;
+  };
   return (
     <div className={`description-review-area ${spaceBottomClass}`}>
       <div className="container">
@@ -52,45 +63,47 @@ const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc }) => {
                 <div className="row">
                   <div className="col-lg-7">
                     <div className="review-wrapper">
-                      <div className="single-review">
-                        <div className="review-img">
-                          <img
-                            src={
-                              process.env.PUBLIC_URL +
-                              "/assets/img/testimonial/1.jpg"
-                            }
-                            alt=""
-                          />
-                        </div>
-                        <div className="review-content">
-                          <div className="review-top-wrap">
-                            <div className="review-left">
-                              <div className="review-name">
-                                <h4>White Lewis</h4>
+                      {productReview.map((review) => (
+                        <div className="single-review">
+                          <div className="review-img">
+                            <img
+                              src={
+                                "https://cdn-icons-png.flaticon.com/512/3237/3237472.png"
+                              }
+                              alt=""
+                              style={{ width: "88px", height: "99px" }}
+                            />
+                          </div>
+                          <div className="review-content">
+                            <div className="review-top-wrap">
+                              <div className="review-left">
+                                <div className="review-name">
+                                  <h4>
+                                    {review.userId.firstName +
+                                      " " +
+                                      review.userId.lastName}
+                                  </h4>
+                                </div>
+                                <div className="review-rating">
+                                  {/* <i className="fa fa-star" />
+                                  <i className="fa fa-star" />
+                                  <i className="fa fa-star" />
+                                  <i className="fa fa-star" />
+                                  <i className="fa fa-star" /> */}
+                                  {renderStar(review.rating)}
+                                </div>
                               </div>
-                              <div className="review-rating">
-                                <i className="fa fa-star" />
-                                <i className="fa fa-star" />
-                                <i className="fa fa-star" />
-                                <i className="fa fa-star" />
-                                <i className="fa fa-star" />
+                              <div className="review-left">
+                                <button>Reply</button>
                               </div>
                             </div>
-                            <div className="review-left">
-                              <button>Reply</button>
+                            <div className="review-bottom">
+                              <p>{review.review}</p>
                             </div>
                           </div>
-                          <div className="review-bottom">
-                            <p>
-                              Vestibulum ante ipsum primis aucibus orci
-                              luctustrices posuere cubilia Curae Suspendisse
-                              viverra ed viverra. Mauris ullarper euismod
-                              vehicula. Phasellus quam nisi, congue id nulla.
-                            </p>
-                          </div>
                         </div>
-                      </div>
-                      <div className="single-review child-review">
+                      ))}
+                      {/* <div className="single-review child-review">
                         <div className="review-img">
                           <img
                             src={
@@ -127,10 +140,10 @@ const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc }) => {
                             </p>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
-                  <div className="col-lg-5">
+                  {/* <div className="col-lg-5">
                     <div className="ratting-form-wrapper pl-50">
                       <h3>Add a Review</h3>
                       <div className="ratting-form">
@@ -170,7 +183,7 @@ const ProductDescriptionTab = ({ spaceBottomClass, productFullDesc }) => {
                         </form>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </Tab.Pane>
             </Tab.Content>

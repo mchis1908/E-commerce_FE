@@ -29,7 +29,7 @@ const ProductDetailsPage = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
-  console.log("PRODUCT", product);
+  console.log("PRODUCTDETAIL", product);
   const { productId } = useParams();
 
   useEffect(() => {
@@ -76,6 +76,7 @@ const ProductDetailsPage = (props) => {
         <ProductDescriptionTab
           spaceBottomClass="pb-90"
           productFullDesc={product.productDetails.description}
+          productReview={product.productDetails.reviews}
         />
 
         {/* related product slider */}

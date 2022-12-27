@@ -68,6 +68,15 @@ const ProductGridSingle = ({
       return "";
     }
   };
+  const renderRating = (rating) => {
+    let num = 0;
+    let sum = 0;
+    rating.forEach((element) => {
+      sum += element.rating;
+      num++;
+    });
+    return sum / num;
+  };
 
   // const discountedPrice = getDiscountPrice(product.price, product.discount);
   // const finalProductPrice = +(product.price * currency.currencyRate).toFixed(2);
@@ -210,13 +219,13 @@ const ProductGridSingle = ({
                 {product.name}
               </Link>
             </h3>
-            {product.rating && product.rating > 0 ? (
+            {product.reviews && product.reviews.length > 0 ? (
               <div className="product-rating">
-                <Rating ratingValue={product.rating} />
+                <Rating ratingValue={renderRating(product.reviews)} />
               </div>
             ) : (
               <div className="product-rating">
-                <Rating ratingValue={4} />
+                <Rating ratingValue={0} />
               </div>
             )}
             <div className="product-price">

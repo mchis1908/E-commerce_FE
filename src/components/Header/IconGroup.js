@@ -27,7 +27,7 @@ const IconGroup = ({
     e.preventDefault();
     console.log(searchValue);
     // navigate(`${searchValue}`);
-    navigate(`${"search"}?${searchValue}`);
+    navigate(`/${"search"}?${searchValue}`);
   };
 
   const triggerMobileMenu = () => {

@@ -109,7 +109,7 @@ const ProductStore = (props) => {
     } else {
       dispatch(getProductsBySlug(window.location.pathname));
     }
-  }, [location.pathname]);
+  }, [location.pathname, window.location.search]);
 
   useEffect(() => {
     let sortedProducts = getSortedProducts(products, sortType, sortValue);
