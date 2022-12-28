@@ -9,6 +9,7 @@ import Tab from "react-bootstrap/Tab";
 import Nav from "react-bootstrap/Nav";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import { useToasts } from "react-toast-notifications";
 
 const LoginRegister = ({ location }) => {
   //   const { pathname } = location;
@@ -22,6 +23,7 @@ const LoginRegister = ({ location }) => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { addToast } = useToasts();
 
   const userSignup = () => {
     const user = { firstName, lastName, email, password };

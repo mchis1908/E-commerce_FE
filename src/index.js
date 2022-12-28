@@ -10,8 +10,10 @@ import * as serviceWorker from "./serviceWorker";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store";
+import Kommunicate from "@kommunicate/kommunicate-chatbot-plugin";
 
 window.store = store;
+Kommunicate.init("3acddaa0c0f1e7dc4e165942616fd10bd");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

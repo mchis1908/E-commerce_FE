@@ -1,14 +1,37 @@
 import PropTypes from "prop-types";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import MetaTags from "react-meta-tags";
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import Card from "react-bootstrap/Card";
 import Accordion from "react-bootstrap/Accordion";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
+import { json } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { changeInfo } from "../../actions";
+import { useToasts } from "react-toast-notifications";
 
 const MyAccount = ({ location }) => {
+  const { addToast } = useToasts();
   // const { pathname } = location;
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setEmail(user.email);
+  }, [localStorage.getItem("user")]);
+
+  const changeInfomation = (e) => {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user"));
+    user.firstName = firstName;
+    user.lastName = lastName;
+    dispatch(changeInfo(user, addToast));
+  };
 
   return (
     <Fragment>
@@ -54,22 +77,34 @@ const MyAccount = ({ location }) => {
                               <div className="col-lg-6 col-md-6">
                                 <div className="billing-info">
                                   <label>First Name</label>
-                                  <input type="text" />
+                                  <input
+                                    type="text"
+                                    value={firstName}
+                                    onChange={(e) => {
+                                      setFirstName(e.target.value);
+                                    }}
+                                  />
                                 </div>
                               </div>
                               <div className="col-lg-6 col-md-6">
                                 <div className="billing-info">
                                   <label>Last Name</label>
-                                  <input type="text" />
+                                  <input
+                                    type="text"
+                                    value={lastName}
+                                    onChange={(e) => {
+                                      setLastName(e.target.value);
+                                    }}
+                                  />
                                 </div>
                               </div>
                               <div className="col-lg-12 col-md-12">
                                 <div className="billing-info">
                                   <label>Email Address</label>
-                                  <input type="email" />
+                                  <input type="email" readOnly value={email} />
                                 </div>
                               </div>
-                              <div className="col-lg-6 col-md-6">
+                              {/* <div className="col-lg-6 col-md-6">
                                 <div className="billing-info">
                                   <label>Telephone</label>
                                   <input type="text" />
@@ -80,11 +115,16 @@ const MyAccount = ({ location }) => {
                                   <label>Fax</label>
                                   <input type="text" />
                                 </div>
-                              </div>
+                              </div> */}
                             </div>
                             <div className="billing-back-btn">
                               <div className="billing-btn">
-                                <button type="submit">Continue</button>
+                                <button
+                                  type="submit"
+                                  onClick={(e) => changeInfomation(e)}
+                                >
+                                  Continue
+                                </button>
                               </div>
                             </div>
                           </div>
