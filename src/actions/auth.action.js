@@ -114,13 +114,48 @@ export const changeInfo = (user, addToast) => {
     dispatch({ type: authConstants.CHANGE_INFO_REQUEST });
     const res = await axios.post("/user/changeInfo", user);
 
-    console.log("RESSSSSS", res);
     if (res.status === 202) {
       // const { token, user } = res.data;
       // localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       if (addToast) {
         addToast("Change infomation success", {
+          appearance: "success",
+          autoDismiss: true,
+        });
+      }
+      dispatch({
+        type: authConstants.CHANGE_INFO_SUCCESS,
+        payload: {
+          user,
+        },
+      });
+    } else {
+      if (res.status === 400) {
+        dispatch({
+          type: authConstants.CHANGE_INFO_FAILURE,
+          payload: { error: res.data.error },
+        });
+      }
+    }
+  };
+};
+
+export const changePassword = (user, password, addToast) => {
+  return async (dispatch) => {
+    dispatch({ type: authConstants.CHANGE_INFO_REQUEST });
+    const payload = {
+      ...user,
+      password,
+    };
+    const res = await axios.post("/user/changePassword", payload);
+
+    if (res.status === 202) {
+      // const { token, user } = res.data;
+      // localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      if (addToast) {
+        addToast("Change password success", {
           appearance: "success",
           autoDismiss: true,
         });

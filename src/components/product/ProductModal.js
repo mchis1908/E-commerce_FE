@@ -64,9 +64,9 @@ function ProductModal(props) {
   // useEffect(() => {
   //   setWishItems(wish.wishItems);
   // }, [wish.wishItems]);
-  // useEffect(() => {
-  //   setCartItems(cart.cartItems);
-  // }, [cart.cartItems]);
+  useEffect(() => {
+    setCartItems(cart.cartItems);
+  }, [cart.cartItems]);
   // useEffect(() => {
   //   setCompareItems(compare.CompareItems);
   // }, [compare.compareItems]);

@@ -8,15 +8,19 @@ import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import { json } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { changeInfo } from "../../actions";
+import { changeInfo, changePassword, signout } from "../../actions";
 import { useToasts } from "react-toast-notifications";
+import { useNavigate } from "react-router-dom";
 
 const MyAccount = ({ location }) => {
   const { addToast } = useToasts();
+  const navigate = useNavigate();
   // const { pathname } = location;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
   const dispatch = useDispatch();
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -31,6 +35,20 @@ const MyAccount = ({ location }) => {
     user.firstName = firstName;
     user.lastName = lastName;
     dispatch(changeInfo(user, addToast));
+  };
+
+  const changePasswordHandler = (e) => {
+    e.preventDefault();
+    if (password === rePassword) {
+      // addToast("Password must match re Password", {
+      //   appearance: "error",
+      //   autoDismiss: true,
+      // });
+      const user = JSON.parse(localStorage.getItem("user"));
+      dispatch(changePassword(user, password, addToast));
+      // dispatch(signout());
+      // navigate("/");
+    }
   };
 
   return (
@@ -150,19 +168,36 @@ const MyAccount = ({ location }) => {
                               <div className="col-lg-12 col-md-12">
                                 <div className="billing-info">
                                   <label>Password</label>
-                                  <input type="password" />
+                                  <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) =>
+                                      setPassword(e.target.value)
+                                    }
+                                  />
                                 </div>
                               </div>
                               <div className="col-lg-12 col-md-12">
                                 <div className="billing-info">
                                   <label>Password Confirm</label>
-                                  <input type="password" />
+                                  <input
+                                    type="password"
+                                    value={rePassword}
+                                    onChange={(e) =>
+                                      setRePassword(e.target.value)
+                                    }
+                                  />
                                 </div>
                               </div>
                             </div>
                             <div className="billing-back-btn">
                               <div className="billing-btn">
-                                <button type="submit">Continue</button>
+                                <button
+                                  type="submit"
+                                  onClick={(e) => changePasswordHandler(e)}
+                                >
+                                  Continue
+                                </button>
                               </div>
                             </div>
                           </div>

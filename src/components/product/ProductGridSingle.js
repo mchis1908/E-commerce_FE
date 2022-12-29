@@ -35,9 +35,9 @@ const ProductGridSingle = ({
   //   setWishItems(wish.wishItems);
   // }, [wish.wishItems]);
 
-  // useEffect(() => {
-  //   setCartItems(cart.cartItems);
-  // }, [cart.cartItems]);
+  useEffect(() => {
+    setCartItems(cart.cartItems);
+  }, [cart.cartItems]);
   // useEffect(() => {
   //   if (auth.authenticate) {
   //     dispatch(getWishItems());
