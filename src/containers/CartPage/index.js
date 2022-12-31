@@ -17,6 +17,7 @@ import { generatePublicUrl } from "../../urlConfig";
 // import "./style.css";
 import { MaterialButton } from "../../components/MaterialUI";
 import { useNavigate } from "react-router-dom";
+import { getDiscountsByName } from "../../actions/discount.action";
 
 /**
  * @author
@@ -35,10 +36,15 @@ if logged in then add products to users cart database from localStorage
 
 const CartPage = (props) => {
   const navigate = useNavigate();
+  const { addToast } = useToasts();
   const cart = useSelector((state) => state.cart);
   const auth = useSelector((state) => state.auth);
+  const discount = useSelector((state) => state.discount);
+  console.log("DISCOUNT", new Date(discount.discounts.endDate));
+  console.log("TODAY", new Date());
   // const cartItems = cart.cartItems;
   const [cartItems, setCartItems] = useState(cart.cartItems);
+  const [coupon, setCoupon] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -66,6 +72,10 @@ const CartPage = (props) => {
     dispatch(removeCartItem({ productId: _id }));
   };
 
+  const onDiscountApply = (e) => {
+    e.preventDefault();
+    dispatch(getDiscountsByName(coupon, addToast));
+  };
   if (props.onlyCartItems) {
     return (
       <>
@@ -292,8 +302,18 @@ const CartPage = (props) => {
                       <div className="discount-code">
                         <p>Enter your coupon code if you have one.</p>
                         <form>
-                          <input type="text" required name="name" />
-                          <button className="cart-btn-2" type="submit">
+                          <input
+                            type="text"
+                            required
+                            name="name"
+                            value={coupon}
+                            onChange={(e) => setCoupon(e.target.value)}
+                          />
+                          <button
+                            className="cart-btn-2"
+                            type="submit"
+                            onClick={onDiscountApply}
+                          >
                             Apply Coupon
                           </button>
                         </form>
@@ -311,19 +331,13 @@ const CartPage = (props) => {
                       <h5>
                         Total products{" "}
                         <span>
-                          {Object.keys(cart.cartItems).reduce(function (
+                          {/* {Object.keys(cart.cartItems).reduce(function (
                             qty,
                             key
                           ) {
                             return qty + cart.cartItems[key].qty;
                           },
-                          0)}
-                        </span>
-                      </h5>
-
-                      <h4 className="grand-totall-title">
-                        Grand Total{" "}
-                        <span>
+                          0)} */}
                           {(+Object.keys(cart.cartItems).reduce(
                             (totalPrice, key) => {
                               const { price, qty } = cart.cartItems[key];
@@ -335,6 +349,73 @@ const CartPage = (props) => {
                             currency: "VND",
                           })}
                         </span>
+                      </h5>
+                      <h5>
+                        Discount{" "}
+                        {discount.discounts.percent > 0 &&
+                        new Date() < new Date(discount.discounts.endDate) ? (
+                          <span>
+                            {(
+                              (+Object.keys(cart.cartItems).reduce(
+                                (totalPrice, key) => {
+                                  const { price, qty } = cart.cartItems[key];
+                                  return totalPrice + price * qty;
+                                },
+                                0
+                              ) *
+                                discount.discounts.percent) /
+                              100
+                            ).toLocaleString("vi", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        ) : (
+                          <span>0</span>
+                        )}
+                      </h5>
+
+                      <h4 className="grand-totall-title">
+                        Grand Total{" "}
+                        {discount.discounts.percent > 0 &&
+                        new Date() < new Date(discount.discounts.endDate) ? (
+                          <span>
+                            {(
+                              +Object.keys(cart.cartItems).reduce(
+                                (totalPrice, key) => {
+                                  const { price, qty } = cart.cartItems[key];
+                                  return totalPrice + price * qty;
+                                },
+                                0
+                              ) -
+                              (+Object.keys(cart.cartItems).reduce(
+                                (totalPrice, key) => {
+                                  const { price, qty } = cart.cartItems[key];
+                                  return totalPrice + price * qty;
+                                },
+                                0
+                              ) *
+                                discount.discounts.percent) /
+                                100
+                            ).toLocaleString("vi", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        ) : (
+                          <span>
+                            {(+Object.keys(cart.cartItems).reduce(
+                              (totalPrice, key) => {
+                                const { price, qty } = cart.cartItems[key];
+                                return totalPrice + price * qty;
+                              },
+                              0
+                            )).toLocaleString("vi", {
+                              style: "currency",
+                              currency: "VND",
+                            })}
+                          </span>
+                        )}
                       </h4>
                       <Link to={process.env.PUBLIC_URL + "/checkout"}>
                         Proceed to Checkout

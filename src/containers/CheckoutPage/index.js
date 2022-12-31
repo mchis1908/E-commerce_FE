@@ -104,6 +104,8 @@ const Address = ({
 const CheckoutPage = (props) => {
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
+  const discount = useSelector((state) => state.discount);
+  const cart = useSelector((state) => state.cart);
   const [newAddress, setNewAddress] = useState(false);
   const [address, setAddress] = useState([]);
   const [confirmAddress, setConfirmAddress] = useState(false);
@@ -112,7 +114,8 @@ const CheckoutPage = (props) => {
   const [orderConfirmation, setOrderConfirmation] = useState(false);
   const [paymentOption, setPaymentOption] = useState(false);
   const [confirmOrder, setConfirmOrder] = useState(false);
-  const cart = useSelector((state) => state.cart);
+  const [cartItems, setCartItems] = useState(cart.cartItems);
+
   const dispatch = useDispatch();
 
   const onAddressSubmit = (addr) => {
@@ -155,6 +158,13 @@ const CheckoutPage = (props) => {
       const { price, qty } = cart.cartItems[key];
       return totalPrice + price * qty;
     }, 0);
+    let discountPrice = 0;
+    if (
+      discount.discounts.percent > 0 &&
+      new Date() < new Date(discount.discounts.endDate)
+    ) {
+      discountPrice = (totalPrice * discount.discounts.percent) / 100;
+    }
     const items = Object.keys(cart.cartItems).map((key) => ({
       productId: key,
       payablePrice: cart.cartItems[key].price,
@@ -166,10 +176,12 @@ const CheckoutPage = (props) => {
       items,
       paymentStatus: "pending",
       paymentType: "cod",
+      discountAmount: discountPrice,
     };
     console.log(payload);
     dispatch(addOrder(payload));
     setConfirmOrder(true);
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -186,6 +198,11 @@ const CheckoutPage = (props) => {
     setAddress(address);
     //user.address.length === 0 && setNewAddress(true);
   }, [user.address]);
+
+  useEffect(() => {
+    setCartItems(cart.cartItems);
+  }, [cart.cartItems]);
+
   if (confirmOrder) {
     return (
       <Fragment>
@@ -287,7 +304,7 @@ const CheckoutPage = (props) => {
                     <CardPage onlyCartItems={true} />
                   ) : orderConfirmation ? (
                     <div className="stepCompleted">
-                      {Object.keys(cart.cartItems).length} items
+                      {Object.keys(cartItems).length} items
                     </div>
                   ) : null
                 }
@@ -370,6 +387,16 @@ const CheckoutPage = (props) => {
                 },
                 0
               )}
+              totalDiscount={
+                new Date() < new Date(discount.discounts.endDate)
+                  ? (Object.keys(cart.cartItems).reduce((totalPrice, key) => {
+                      const { price, qty } = cart.cartItems[key];
+                      return totalPrice + price * qty;
+                    }, 0) *
+                      discount.discounts.percent) /
+                    100
+                  : 0
+              }
             />
           </div>
         </div>

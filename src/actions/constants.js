@@ -20,6 +20,11 @@ export const productContants = {
   GET_PRODUCTS: "GET_PRODUCTS",
 };
 
+export const discountContants = {
+  GET_DISCOUNTS_BY_NAME: "GET_DISCOUNTS_BY_NAME",
+  RESET_DISCOUNT: "RESET_DISCOUNT",
+};
+
 export const authConstants = {
   LOGIN_REQUEST: "LOGIN_REQUEST",
   LOGIN_FAILURE: "LOGIN_FAILURE",

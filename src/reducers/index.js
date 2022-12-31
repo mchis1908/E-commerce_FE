@@ -6,6 +6,7 @@ import userReducer from "./user.reducer";
 import orderReducer from "./order.reducer";
 import wishReducer from "./wish.reducer";
 import compareReducer from "./compare.reducer";
+import discountReducer from "./discount.reducer";
 import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   order: orderReducer,
   wish: wishReducer,
   compare: compareReducer,
+  discount: discountReducer,
 });
 
 export default rootReducer;

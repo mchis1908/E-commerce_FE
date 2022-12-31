@@ -1,4 +1,4 @@
-import { cartConstants, userConstants } from "./constants";
+import { cartConstants, discountContants, userConstants } from "./constants";
 import axios from "../helpers/axios";
 
 export const getAddress = () => {
@@ -63,6 +63,9 @@ export const addOrder = (payload) => {
         console.log(res);
         dispatch({
           type: cartConstants.RESET_CART,
+        });
+        dispatch({
+          type: discountContants.RESET_DISCOUNT,
         });
         // const {
         //     address: { address },

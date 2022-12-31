@@ -21,6 +21,7 @@ import "./style.css";
 const OrderDetailsPage = (props) => {
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.user.orderDetails);
+  console.log("OrderDetail", orderDetails);
   const params = useParams();
 
   useEffect(() => {
@@ -113,7 +114,36 @@ const OrderDetailsPage = (props) => {
               </div>
               <div className="delMoreActionContainer">
                 <div className="delTitle">More Actions</div>
-                <div className="delName">Download Invoice</div>
+                <div className="delName">
+                  Total products:{" "}
+                  {orderDetails.totalAmount.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </div>
+                <div className="delAddress">
+                  Discount:{" "}
+                  {orderDetails.discountAmount
+                    ? orderDetails.discountAmount.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : "0"}
+                </div>
+                <div className="delPhoneNumber">
+                  Grand Total:{" "}
+                  {orderDetails.discountAmount
+                    ? (
+                        +orderDetails.totalAmount - orderDetails.discountAmount
+                      ).toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })
+                    : orderDetails.totalAmount.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                </div>
               </div>
             </div>
           </Card>
@@ -133,6 +163,9 @@ const OrderDetailsPage = (props) => {
                 <div style={{ width: "250px" }}>
                   <div className="delItemName">{item.productId.name}</div>
                   <Price value={item.payablePrice} />
+                  <div className="delItemName">
+                    Quantity: {item.purchasedQty}
+                  </div>
                 </div>
               </div>
               <div style={{ padding: "25px 50px" }}>
