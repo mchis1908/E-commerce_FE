@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 
 const ProductRating = ({ ratingValue }) => {
   let rating = [];
-
+  console.log("RATING", ratingValue);
   for (let i = 0; i < 5; i++) {
     rating.push(<i className="fa fa-star-o" key={i}></i>);
   }

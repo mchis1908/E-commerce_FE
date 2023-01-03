@@ -75,3 +75,23 @@ export const getProductDetailsById = (payload) => {
     }
   };
 };
+
+export const addReview = (payload) => {
+  return async (dispatch) => {
+    dispatch({ type: productContants.ADD_REVIEW_REQUEST });
+    try {
+      const res = await axios.post("product/addReview", payload);
+      if (res.status === 201) {
+        dispatch({ type: productContants.ADD_REVIEW_SUCCESS });
+      } else {
+        const { error } = res.data;
+        dispatch({
+          type: productContants.ADD_REVIEW_FAILURE,
+          payload: { error },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

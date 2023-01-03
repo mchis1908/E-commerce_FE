@@ -2,13 +2,26 @@ import PropTypes from "prop-types";
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Rating from "./sub-components/ProductRating";
+// import Rating from "./sub-components/ProductRating";
 import { addToCart } from "../../actions/cart.action";
 import { addToWish } from "../../actions/wish.action";
 import { addToCompare } from "../../actions/compare.action";
+import Rating from "@mui/material/Rating";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+
+const renderRating = (rating) => {
+  let num = 0;
+  let sum = 0;
+  rating.forEach((element) => {
+    sum += element.rating;
+    num++;
+  });
+  console.log("SUM", sum);
+  console.log("num", num);
+  return (sum * 1.0) / num;
+};
 
 const ProductDescriptionInfo = ({
   product,
@@ -48,6 +61,8 @@ const ProductDescriptionInfo = ({
   //   selectedProductSize
   // );
 
+  console.log("PRODUCTTTTTTTTTTTTT", product);
+
   return (
     <div className="product-details-content ml-70">
       <h2>{product.name}</h2>
@@ -69,7 +84,7 @@ const ProductDescriptionInfo = ({
           })}
         </span>
       </div>
-      {product.rating && product.rating > 0 ? (
+      {/* {product.rating && product.rating > 0 ? (
         <div className="pro-details-rating-wrap">
           <div className="pro-details-rating">
             <Rating ratingValue={product.rating} />
@@ -80,6 +95,22 @@ const ProductDescriptionInfo = ({
           <div className="pro-details-rating">
             <Rating ratingValue={4} />
           </div>
+        </div>
+      )} */}
+      {product.reviews && product.reviews.length > 0 ? (
+        <div className="product-rating">
+          {/* <Rating ratingValue={renderRating(product.reviews)} />
+          <div>{renderRating(product.reviews)}</div> */}
+          <Rating
+            name="read-only"
+            value={renderRating(product.reviews)}
+            readOnly
+            precision={0.5}
+          />
+        </div>
+      ) : (
+        <div className="product-rating">
+          <Rating name="read-only" value={0} readOnly />
         </div>
       )}
       <div className="pro-details-list">

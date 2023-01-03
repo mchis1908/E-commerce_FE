@@ -1,8 +1,8 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getOrder } from "../../actions";
-import { updateOrder } from "../../actions/order.action";
+import { addReview, getOrder } from "../../actions";
+import { updateOrder, updateReviewOrder } from "../../actions/order.action";
 import Layout from "../../components/Layout";
 import Card from "../../components/UI/Card";
 import Price from "../../components/UI/Price";
@@ -12,6 +12,7 @@ import { BreadcrumbsItem } from "react-breadcrumbs-dynamic";
 import LayoutOne from "../../layouts/LayoutOne";
 import Breadcrumb from "../../wrappers/breadcrumb/Breadcrumb";
 import "./style.css";
+import Rating from "@mui/material/Rating";
 
 /**
  * @author
@@ -19,6 +20,8 @@ import "./style.css";
  **/
 
 const OrderDetailsPage = (props) => {
+  const [ratingValue, setRatingValue] = useState(0);
+  const [reviewValue, setReviewValue] = useState("");
   const dispatch = useDispatch();
   const orderDetails = useSelector((state) => state.user.orderDetails);
   console.log("OrderDetail", orderDetails);
@@ -38,6 +41,24 @@ const OrderDetailsPage = (props) => {
       type: "canceled",
     };
     dispatch(updateOrder(payload));
+    window.location.reload(true);
+  };
+
+  const onUpdateReview = (orderId, productId, userId) => {
+    const payload = {
+      orderId,
+      productId,
+    };
+    const payload1 = {
+      productId,
+      reviews: {
+        userId,
+        review: reviewValue,
+        rating: ratingValue,
+      },
+    };
+    dispatch(updateReviewOrder(payload));
+    dispatch(addReview(payload1));
     window.location.reload(true);
   };
 
@@ -194,6 +215,74 @@ const OrderDetailsPage = (props) => {
                   `Delivered on ${formatDate2(
                     orderDetails.orderStatus[3].date
                   )}`}
+              </div>
+              <div style={{ padding: "25px 50px" }}>
+                {orderDetails.orderStatus[3].isCompleted && !item.isReview ? (
+                  <div className="ratting-form-wrapper pl-50">
+                    <h3>Add a Review</h3>
+                    <div className="ratting-form">
+                      <form action="#">
+                        <div className="star-box">
+                          <span>Your rating:</span>
+                          {/* <div className="ratting-star">
+                            <i className="fa fa-star" />
+                            <i className="fa fa-star" />
+                            <i className="fa fa-star" />
+                            <i className="fa fa-star" />
+                            <i className="fa fa-star" />
+                          </div> */}
+                          <Rating
+                            name="simple-controlled"
+                            value={ratingValue}
+                            onChange={(event, newValue) => {
+                              setRatingValue(newValue);
+                            }}
+                          />
+                        </div>
+                        <div className="row">
+                          <div className="col-md-6">
+                            {/* <div className="rating-form-style mb-10">
+                              <input placeholder="Name" type="text" />
+                            </div> */}
+                          </div>
+                          <div className="col-md-6">
+                            {/* <div className="rating-form-style mb-10">
+                              <input placeholder="Email" type="email" />
+                            </div> */}
+                          </div>
+                          <div className="col-md-12">
+                            <div className="rating-form-style form-submit">
+                              <textarea
+                                name="Your Review"
+                                placeholder="Message"
+                                defaultValue={""}
+                                value={reviewValue}
+                                onChange={(e) => setReviewValue(e.target.value)}
+                              />
+                              <input
+                                type="submit"
+                                defaultValue="Submit"
+                                onClick={() =>
+                                  onUpdateReview(
+                                    orderDetails._id,
+                                    item.productId._id,
+                                    orderDetails.user
+                                  )
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                ) : (
+                  <div style={{ fontWeight: "500", fontSize: 14 }}>
+                    {orderDetails.orderStatus[3].isCompleted
+                      ? "Thank you for your review"
+                      : ""}
+                  </div>
+                )}
               </div>
             </Card>
           ))}

@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 import { getDiscountPrice } from "../../helpers/product";
 import { generatePublicUrl } from "../../urlConfig";
-import Rating from "./sub-components/ProductRating";
+// import Rating from "./sub-components/ProductRating";
+import Rating from "@mui/material/Rating";
 import ProductModal from "./ProductModal";
 import { addToCart } from "../../actions/cart.action";
 import { addToWish } from "../../actions/wish.action";
@@ -75,7 +76,7 @@ const ProductGridSingle = ({
       sum += element.rating;
       num++;
     });
-    return sum / num;
+    return (sum * 1.0) / num;
   };
 
   // const discountedPrice = getDiscountPrice(product.price, product.discount);
@@ -221,11 +222,16 @@ const ProductGridSingle = ({
             </h3>
             {product.reviews && product.reviews.length > 0 ? (
               <div className="product-rating">
-                <Rating ratingValue={renderRating(product.reviews)} />
+                <Rating
+                  name="read-only"
+                  value={renderRating(product.reviews)}
+                  readOnly
+                  precision={0.5}
+                />{" "}
               </div>
             ) : (
               <div className="product-rating">
-                <Rating ratingValue={0} />
+                <Rating name="read-only" value={0} readOnly />
               </div>
             )}
             <div className="product-price">
