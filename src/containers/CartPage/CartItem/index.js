@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { generatePublicUrl } from "../../../urlConfig";
 import { Link } from "react-router-dom";
 
@@ -10,7 +10,8 @@ import { Link } from "react-router-dom";
 
 const CartItem = (props) => {
   const [qty, setQty] = useState(props.cartItem.qty);
-  const { _id, name, price, img } = props.cartItem;
+  const { _id, name, price, img, sale } = props.cartItem;
+  console.log("Sale Cart", props.cartItem);
 
   const onQuantityIncrement = () => {
     setQty(qty + 1);
@@ -47,29 +48,35 @@ const CartItem = (props) => {
       </td>
 
       <td className="product-price-cart">
-        {/* {discountedPrice !== null ? (
-        <Fragment>
-          <span className="amount old">
-            {currency.currencySymbol +
-              finalProductPrice}
-          </span>
+        {sale !== null && sale > 0 ? (
+          <Fragment>
+            <span className="amount old">
+              {(+price).toLocaleString("vi", {
+                style: "currency",
+                currency: "VND",
+              })}
+            </span>
+            <span className="amount">
+              {(price - sale).toLocaleString("vi", {
+                style: "currency",
+                currency: "VND",
+              })}
+            </span>
+          </Fragment>
+        ) : (
           <span className="amount">
-            {currency.currencySymbol +
-              finalDiscountedPrice}
+            {(+price).toLocaleString("vi", {
+              style: "currency",
+              currency: "VND",
+            })}
           </span>
-        </Fragment>
-      ) : (
-        <span className="amount">
-          {currency.currencySymbol +
-            finalProductPrice}
-        </span>
-      )} */}
-        <span className="amount">
+        )}
+        {/* <span className="amount">
           {(+price).toLocaleString("vi", {
             style: "currency",
             currency: "VND",
           })}
-        </span>
+        </span> */}
       </td>
 
       <td className="product-quantity">
@@ -124,7 +131,7 @@ const CartItem = (props) => {
           (
             finalProductPrice * cartItem.quantity
           ).toFixed(2)} */}
-        {(+(price * qty)).toLocaleString("vi", {
+        {(+((price - sale) * qty)).toLocaleString("vi", {
           style: "currency",
           currency: "VND",
         })}

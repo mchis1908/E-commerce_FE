@@ -13,6 +13,9 @@ import { getWishItems } from "../../actions/wish.action";
 import { getCartItems } from "../../actions/cart.action";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+const renderPercentDiscount = (salePrice, price) => {
+  return ((+salePrice / +price) * 100).toFixed(0);
+};
 const ProductGridListSingle = ({
   product,
   currency,
@@ -52,18 +55,35 @@ const ProductGridListSingle = ({
 
   const toDay = new Date();
 
-  const renderNew = (productDate) => {
+  const renderNew = (productDate, salePrice, price) => {
     const date = new Date(productDate);
     if (date.getMonth() === toDay.getMonth()) {
       if (date.getDate() >= toDay.getDate() - 7) {
         return (
           <div className="product-img-badges">
+            {salePrice > 0 ? (
+              <span className="pink">
+                -{renderPercentDiscount(salePrice, price)}%
+              </span>
+            ) : (
+              ""
+            )}
             <span className="purple">New</span>
           </div>
         );
       }
     } else {
-      return "";
+      return (
+        <div className="product-img-badges">
+          {salePrice > 0 ? (
+            <span className="pink">
+              -{renderPercentDiscount(salePrice, price)}%
+            </span>
+          ) : (
+            ""
+          )}
+        </div>
+      );
     }
   };
   const renderRating = (rating) => {
@@ -125,7 +145,7 @@ const ProductGridListSingle = ({
             ) : (
               ""
             )} */}
-            {renderNew(product.createdAt)}
+            {renderNew(product.createdAt, product.sale, product.price)}
 
             <div className="product-action">
               <div className="pro-same-action pro-wishlist">
@@ -232,22 +252,35 @@ const ProductGridListSingle = ({
               </div>
             )}
             <div className="product-price">
-              {/* {discountedPrice !== null ? (
+              {product.sale !== null && product.sale > 0 ? (
                 <Fragment>
-                  <span>{currency.currencySymbol + finalDiscountedPrice}</span>{" "}
+                  <span>
+                    {(product.price - product.sale).toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </span>{" "}
                   <span className="old">
-                    {currency.currencySymbol + finalProductPrice}
+                    {(+product.price).toLocaleString("vi", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
                   </span>
                 </Fragment>
               ) : (
-                <span>{currency.currencySymbol + finalProductPrice} </span>
-              )} */}
-              <span>
+                <span>
+                  {(+product.price).toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
+              )}
+              {/* <span>
                 {(+product.price).toLocaleString("vi", {
                   style: "currency",
                   currency: "VND",
                 })}
-              </span>
+              </span> */}
             </div>
           </div>
         </div>
@@ -289,7 +322,7 @@ const ProductGridListSingle = ({
                   ) : (
                     ""
                   )} */}
-                  {renderNew(product.createdAt)}
+                  {renderNew(product.createdAt, product.sale, product.price)}
                 </div>
               </div>
             </div>
@@ -306,24 +339,35 @@ const ProductGridListSingle = ({
                   </Link>
                 </h3>
                 <div className="product-list-price">
-                  {/* {discountedPrice !== null ? (
+                  {product.sale !== null && product.sale > 0 ? (
                     <Fragment>
                       <span>
-                        {currency.currencySymbol + finalDiscountedPrice}
+                        {(product.price - product.sale).toLocaleString("vi", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
                       </span>{" "}
                       <span className="old">
-                        {currency.currencySymbol + finalProductPrice}
+                        {(+product.price).toLocaleString("vi", {
+                          style: "currency",
+                          currency: "VND",
+                        })}
                       </span>
                     </Fragment>
                   ) : (
-                    <span>{currency.currencySymbol + finalProductPrice} </span>
-                  )} */}
-                  <span>
+                    <span>
+                      {(+product.price).toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </span>
+                  )}
+                  {/* <span>
                     {(+product.price).toLocaleString("vi", {
                       style: "currency",
                       currency: "VND",
                     })}
-                  </span>
+                  </span> */}
                 </div>
                 {product.reviews && product.reviews.length > 0 ? (
                   <div className="rating-review">

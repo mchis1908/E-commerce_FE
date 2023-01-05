@@ -183,7 +183,11 @@ const OrderDetailsPage = (props) => {
                 </div>
                 <div style={{ width: "250px" }}>
                   <div className="delItemName">{item.productId.name}</div>
-                  <Price value={item.payablePrice} />
+                  {item.productId.sale && item.productId.sale > 0 ? (
+                    <Price value={+item.payablePrice - item.productId.sale} />
+                  ) : (
+                    <Price value={item.payablePrice} />
+                  )}
                   <div className="delItemName">
                     Quantity: {item.purchasedQty}
                   </div>

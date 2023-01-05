@@ -340,8 +340,8 @@ const CartPage = (props) => {
                           0)} */}
                           {(+Object.keys(cart.cartItems).reduce(
                             (totalPrice, key) => {
-                              const { price, qty } = cart.cartItems[key];
-                              return totalPrice + price * qty;
+                              const { price, qty, sale } = cart.cartItems[key];
+                              return totalPrice + (price - sale) * qty;
                             },
                             0
                           )).toLocaleString("vi", {
@@ -358,8 +358,9 @@ const CartPage = (props) => {
                             {(
                               (+Object.keys(cart.cartItems).reduce(
                                 (totalPrice, key) => {
-                                  const { price, qty } = cart.cartItems[key];
-                                  return totalPrice + price * qty;
+                                  const { price, qty, sale } =
+                                    cart.cartItems[key];
+                                  return totalPrice + (price - sale) * qty;
                                 },
                                 0
                               ) *
@@ -383,15 +384,17 @@ const CartPage = (props) => {
                             {(
                               +Object.keys(cart.cartItems).reduce(
                                 (totalPrice, key) => {
-                                  const { price, qty } = cart.cartItems[key];
-                                  return totalPrice + price * qty;
+                                  const { price, qty, sale } =
+                                    cart.cartItems[key];
+                                  return totalPrice + (price - sale) * qty;
                                 },
                                 0
                               ) -
                               (+Object.keys(cart.cartItems).reduce(
                                 (totalPrice, key) => {
-                                  const { price, qty } = cart.cartItems[key];
-                                  return totalPrice + price * qty;
+                                  const { price, qty, sale } =
+                                    cart.cartItems[key];
+                                  return totalPrice + (price - sale) * qty;
                                 },
                                 0
                               ) *
@@ -406,8 +409,9 @@ const CartPage = (props) => {
                           <span>
                             {(+Object.keys(cart.cartItems).reduce(
                               (totalPrice, key) => {
-                                const { price, qty } = cart.cartItems[key];
-                                return totalPrice + price * qty;
+                                const { price, qty, sale } =
+                                  cart.cartItems[key];
+                                return totalPrice + (price - sale) * qty;
                               },
                               0
                             )).toLocaleString("vi", {

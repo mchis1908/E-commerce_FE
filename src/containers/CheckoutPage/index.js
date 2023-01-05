@@ -155,8 +155,8 @@ const CheckoutPage = (props) => {
 
   const onConfirmOrder = () => {
     const totalPrice = Object.keys(cart.cartItems).reduce((totalPrice, key) => {
-      const { price, qty } = cart.cartItems[key];
-      return totalPrice + price * qty;
+      const { price, qty, sale } = cart.cartItems[key];
+      return totalPrice + (price - sale) * qty;
     }, 0);
     let discountPrice = 0;
     if (
@@ -382,16 +382,16 @@ const CheckoutPage = (props) => {
               0)}
               totalPrice={Object.keys(cart.cartItems).reduce(
                 (totalPrice, key) => {
-                  const { price, qty } = cart.cartItems[key];
-                  return totalPrice + price * qty;
+                  const { price, qty, sale } = cart.cartItems[key];
+                  return totalPrice + (price - sale) * qty;
                 },
                 0
               )}
               totalDiscount={
                 new Date() < new Date(discount.discounts.endDate)
                   ? (Object.keys(cart.cartItems).reduce((totalPrice, key) => {
-                      const { price, qty } = cart.cartItems[key];
-                      return totalPrice + price * qty;
+                      const { price, qty, sale } = cart.cartItems[key];
+                      return totalPrice + (price - sale) * qty;
                     }, 0) *
                       discount.discounts.percent) /
                     100
