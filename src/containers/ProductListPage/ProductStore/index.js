@@ -74,6 +74,22 @@ const ProductStore = (props) => {
   const priceRange = product.priceRange;
   // console.log("Price Range", priceRange);
   const dispatch = useDispatch();
+  const renderRating = (rating) => {
+    let num = 0;
+    let sum = 0;
+    rating.forEach((element) => {
+      sum += element.rating;
+      num++;
+    });
+    return (sum * 1.0) / num;
+  };
+  const getRatingProduct = (rating) => {
+    if (rating.length > 0) {
+      return renderRating(rating);
+    } else {
+      return 0;
+    }
+  };
 
   const getSortedProducts = (products, sortType, sortValue) => {
     console.log("TYPE", sortType);
@@ -83,6 +99,14 @@ const ProductStore = (props) => {
         return products.sort((a, b) => b.price - a.price);
       } else if (sortValue === "priceLowToHigh") {
         return products.sort((a, b) => a.price - b.price);
+      } else if (sortValue === "ratingHighToLow") {
+        return products.sort(
+          (a, b) => getRatingProduct(b.reviews) - getRatingProduct(a.reviews)
+        );
+      } else if (sortValue === "ratingLowToHigh") {
+        return products.sort(
+          (a, b) => getRatingProduct(a.reviews) - getRatingProduct(b.reviews)
+        );
       } else {
         return products;
       }

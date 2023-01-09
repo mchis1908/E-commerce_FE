@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import ShopSearch from "../../components/product/ShopSearch";
 import ShopCategories from "../../components/product/ShopCategories";
+import ShopRating from "../../components/product/ShopRating";
 
 const ShopSidebar = ({
   products,
@@ -23,7 +24,7 @@ const ShopSidebar = ({
   // const uniqueColors = getIndividualColors(products);
   // const uniqueSizes = getProductsIndividualSizes(products);
   // const uniqueTags = getIndividualTags(products);
-
+  // const uniqueRating = [0, 1, 2, 3, 4];
   return (
     <div className={`sidebar-style ${sideSpaceClass ? sideSpaceClass : ""}`}>
       {/* shop search */}
@@ -34,6 +35,7 @@ const ShopSidebar = ({
         categories={uniqueCategories}
         getSortParams={getSortParams}
       />
+      {/* <ShopRating categories={uniqueRating} /> */}
 
       {/* filter by color */}
       {/* <ShopColor colors={uniqueColors} getSortParams={getSortParams} /> */}
