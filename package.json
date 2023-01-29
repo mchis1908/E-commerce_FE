@@ -45,6 +45,8 @@
     "redux-localstorage-simple": "^2.1.6",
     "redux-multilanguage": "^0.1.2",
     "redux-thunk": "^2.4.2",
+    "socket.io": "^4.5.4",
+    "socket.io-client": "^4.5.4",
     "swiper": "^5.2.0",
     "uuid": "^3.3.3",
     "web-vitals": "^2.1.4"
