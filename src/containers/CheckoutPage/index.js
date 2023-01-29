@@ -17,6 +17,7 @@ import Card from "../../components/UI/Card";
 import CardPage from "../CartPage";
 import AddressForm from "./AddressForm";
 import PriceDetails from "../../components/PriceDetails";
+import { io } from "socket.io-client";
 
 import "./style.css";
 
@@ -24,6 +25,8 @@ import "./style.css";
  * @author
  * @function CheckoutPage
  **/
+
+const socket = io("http://localhost:2000/");
 
 const CheckoutStep = (props) => {
   return (
@@ -103,6 +106,9 @@ const Address = ({
 
 const CheckoutPage = (props) => {
   const user = useSelector((state) => state.user);
+
+  console.log({ user });
+
   const auth = useSelector((state) => state.auth);
   const discount = useSelector((state) => state.discount);
   const cart = useSelector((state) => state.cart);
@@ -178,6 +184,9 @@ const CheckoutPage = (props) => {
       paymentType: "cod",
       discountAmount: discountPrice,
     };
+    socket.emit("new-order", {
+      customer: selectedAddress.name,
+    });
     console.log(payload);
     dispatch(addOrder(payload));
     setConfirmOrder(true);
@@ -216,6 +225,7 @@ const CheckoutPage = (props) => {
       </Fragment>
     );
   }
+
   return (
     <Fragment>
       <MetaTags>
