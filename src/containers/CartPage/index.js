@@ -156,10 +156,10 @@ const CartPage = (props) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Cart</title>
+        <title>Laptop Shop | Cart</title>
         <meta
           name="description"
-          content="Cart page of flone react minimalist eCommerce template."
+          content="Cart page of Laptop Shop react minimalist eCommerce template."
         />
       </MetaTags>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
