@@ -19,6 +19,9 @@ const IconGroup = ({
   const compare = useSelector((state) => state.compare);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const auth = useSelector((state) => state.auth);
+
   const handleClick = (e) => {
     e.currentTarget.nextSibling.classList.toggle("active");
   };
@@ -70,33 +73,44 @@ const IconGroup = ({
         >
           <i className="pe-7s-user-female" />
         </button>
-        <div className="account-dropdown">
+        {
+          !auth.authenticate ?
+          <div className="account-dropdown">
           <ul>
             <li>
-              <Link to={process.env.PUBLIC_URL + "/login-register"}>Login</Link>
+              <Link to={process.env.PUBLIC_URL + "/login-register"}>
+                Login
+              </Link>
             </li>
             <li>
               <Link to={process.env.PUBLIC_URL + "/login-register"}>
                 Register
               </Link>
             </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/my-account"}>
-                my account
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/"} onClick={logout}>
-                Sign out
-              </Link>
-            </li>
-            <li>
-              <Link to={process.env.PUBLIC_URL + "/account/orders"}>
-                Orders
-              </Link>
-            </li>
           </ul>
         </div>
+        : 
+        <div className="account-dropdown">
+        <ul>
+          <li>
+            <Link to={process.env.PUBLIC_URL + "/account/orders"}>
+              My Orders
+            </Link>
+          <li>
+            <Link to={process.env.PUBLIC_URL + "/my-account"}>
+              My Account
+            </Link>
+          </li>
+          <li>
+          </li>
+            <Link to={process.env.PUBLIC_URL + "/"} onClick={logout}>
+              Sign out
+            </Link>
+          </li>
+        </ul>
+      </div>
+        }
+        
       </div>
       <div className="same-style header-compare">
         <Link to={process.env.PUBLIC_URL + "/compare"}>

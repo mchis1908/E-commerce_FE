@@ -54,10 +54,10 @@ const MyAccount = ({ location }) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | My Account</title>
+        <title>Laptop Shop | My Account</title>
         <meta
           name="description"
-          content="Compare page of flone react minimalist eCommerce template."
+          content="Compare page of Laptop Shop react minimalist eCommerce template."
         />
       </MetaTags>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
@@ -204,7 +204,7 @@ const MyAccount = ({ location }) => {
                         </Card.Body>
                       </Accordion.Collapse>
                     </Card>
-                    <Card className="single-my-account mb-20">
+                    {/* <Card className="single-my-account mb-20">
                       <Card.Header className="panel-heading">
                         <Accordion.Toggle variant="link" eventKey="2">
                           <h3 className="panel-title">
@@ -245,7 +245,7 @@ const MyAccount = ({ location }) => {
                           </div>
                         </Card.Body>
                       </Accordion.Collapse>
-                    </Card>
+                    </Card> */}
                   </Accordion>
                 </div>
               </div>
