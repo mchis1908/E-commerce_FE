@@ -78,6 +78,12 @@ const ProductDescriptionInfo = ({
           <span>{currency.currencySymbol + finalProductPrice} </span>
         )} */}
         <span>
+          {(+product.price - product.sale).toLocaleString("vi", {
+            style: "currency",
+            currency: "VND",
+          })}
+        </span>
+        <span className="old">
           {(+product.price).toLocaleString("vi", {
             style: "currency",
             currency: "VND",
@@ -206,7 +212,7 @@ const ProductDescriptionInfo = ({
         </div>
       ) : (
         <div className="pro-details-quality">
-          <div className="cart-plus-minus">
+          {/* <div className="cart-plus-minus">
             <button
               onClick={() =>
                 setQuantityCount(quantityCount > 1 ? quantityCount - 1 : 1)
@@ -238,7 +244,7 @@ const ProductDescriptionInfo = ({
             >
               +
             </button>
-          </div>
+          </div> */}
           <div className="pro-details-cart btn-hover">
             {/* {productStock && productStock > 0 ? (
               <button

@@ -270,16 +270,14 @@ const Wishlist = ({
                   <div className="col-lg-12">
                     <div className="cart-shiping-update-wrapper">
                       <div className="cart-shiping-update">
-                        <Link
-                          to={process.env.PUBLIC_URL + "/shop-grid-standard"}
-                        >
+                        <Link to={process.env.PUBLIC_URL + "/"}>
                           Continue Shopping
                         </Link>
                       </div>
                       <div className="cart-clear">
-                        <button onClick={() => deleteAllFromWishlist(addToast)}>
+                        {/* <button onClick={() => deleteAllFromWishlist(addToast)}>
                           Clear Wishlist
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -294,9 +292,7 @@ const Wishlist = ({
                     </div>
                     <div className="item-empty-area__text">
                       No items found in wishlist <br />{" "}
-                      <Link to={process.env.PUBLIC_URL + "/shop-grid-standard"}>
-                        Add Items
-                      </Link>
+                      <Link to={process.env.PUBLIC_URL + "/"}>Add Items</Link>
                     </div>
                   </div>
                 </div>

@@ -55,16 +55,14 @@ const BlogPosts = (props) => {
                         new Date(order.createdAt).getFullYear()}
                     </li>
                     <li>
-                      <Link
-                        to={process.env.PUBLIC_URL + "/blog-details-standard"}
-                      >
+                      <Link to={`/order_details/${order._id}`}>
                         {order._id}
                       </Link>
                     </li>
                   </ul>
                 </div>
                 <h4>
-                  <Link to={process.env.PUBLIC_URL + "/blog-details-standard"}>
+                  <Link to={`/order_details/${order._id}`}>
                     {item.productId.name}
                   </Link>
                 </h4>
@@ -78,11 +76,7 @@ const BlogPosts = (props) => {
                 <p>Quantity: {item.purchasedQty}</p>
                 <div className="blog-share-comment">
                   <div className="blog-btn-2">
-                    <Link
-                      to={process.env.PUBLIC_URL + "/blog-details-standard"}
-                    >
-                      read more
-                    </Link>
+                    <Link to={`/order_details/${order._id}`}>read more</Link>
                   </div>
                   <div className="">
                     <Chip

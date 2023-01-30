@@ -13,7 +13,7 @@ import store from "./store";
 import Kommunicate from "@kommunicate/kommunicate-chatbot-plugin";
 
 window.store = store;
-Kommunicate.init("3acddaa0c0f1e7dc4e165942616fd10bd");
+Kommunicate.init("39057f680d378c35c27d241e7f183d27a");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -40,8 +40,6 @@ const CartPage = (props) => {
   const cart = useSelector((state) => state.cart);
   const auth = useSelector((state) => state.auth);
   const discount = useSelector((state) => state.discount);
-  console.log("DISCOUNT", new Date(discount.discounts.endDate));
-  console.log("TODAY", new Date());
   // const cartItems = cart.cartItems;
   const [cartItems, setCartItems] = useState(cart.cartItems);
   const [coupon, setCoupon] = useState("");
@@ -237,11 +235,11 @@ const CartPage = (props) => {
                         </Link>
                       </div>
                       <div className="cart-clear">
-                        <button
+                        {/* <button
                         //  onClick={() => deleteAllFromCart(addToast)}
                         >
                           Clear Shopping Cart
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -249,7 +247,7 @@ const CartPage = (props) => {
 
                 <div className="row">
                   <div className="col-lg-4 col-md-6">
-                    <div className="cart-tax">
+                    {/* <div className="cart-tax">
                       <div className="title-wrap">
                         <h4 className="cart-bottom-title section-bg-gray">
                           Estimate Shipping And Tax
@@ -289,7 +287,7 @@ const CartPage = (props) => {
                           </button>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="col-lg-4 col-md-6">

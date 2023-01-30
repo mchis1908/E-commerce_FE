@@ -154,19 +154,19 @@ const AddressForm = (props) => {
           </div>
         </div>
         <div className="flexRow">
-          <div style={inputContainer}>
+          {/* <div style={inputContainer}>
             <MaterialInput
               label="Landmark (Optional)"
               value={landmark}
               onChange={(e) => setLandmark(e.target.value)}
             />
-          </div>
+          </div> */}
           <div style={inputContainer}>
-            <MaterialInput
+            {/* <MaterialInput
               label="Alternate Phone (Optional)"
               value={alternatePhone}
               onChange={(e) => setAlternatePhone(e.target.value)}
-            />
+            /> */}
           </div>
         </div>
         <label>Address Type</label>
@@ -177,8 +177,14 @@ const AddressForm = (props) => {
               onClick={() => setAddressType("home")}
               name="addressType"
               value="home"
+              id="home"
+              style={{
+                width: "20px",
+                height: "10px",
+              }}
             />
-            <span>Home</span>
+            {/* <span>Home</span> */}
+            <label htmlFor="home">Home</label>
           </div>
           <div>
             <input
@@ -186,8 +192,14 @@ const AddressForm = (props) => {
               onClick={() => setAddressType("work")}
               name="addressType"
               value="work"
+              id="work"
+              style={{
+                width: "20px",
+                height: "10px",
+              }}
             />
-            <span>Work</span>
+            {/* <span>Work</span> */}
+            <label htmlFor="work">Work</label>
           </div>
         </div>
         <div className="flexRow">
