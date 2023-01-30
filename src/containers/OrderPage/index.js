@@ -101,10 +101,10 @@ const OrderPage = (props) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Flone | Orders</title>
+        <title>Laptop Shop | Orders</title>
         <meta
           name="description"
-          content="Order page of flone react minimalist eCommerce template."
+          content="Order page of Laptop Shop react minimalist eCommerce template."
         />
       </MetaTags>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
