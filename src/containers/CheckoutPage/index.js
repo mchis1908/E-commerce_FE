@@ -191,10 +191,10 @@ const CheckoutPage = (props) => {
           customer: selectedAddress.name,
           id: res.data.order._id,
         });
+        setConfirmOrder(true);
+        window.location.reload();
       }
     });
-    setConfirmOrder(true);
-    // window.location.reload();
   };
 
   useEffect(() => {
