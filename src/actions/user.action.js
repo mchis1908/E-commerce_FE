@@ -61,6 +61,14 @@ export const addOrder = (payload) => {
       dispatch({ type: userConstants.ADD_USER_ORDER_REQUEST });
       if (res.status === 201) {
         console.log(res);
+        // const {
+        //   order: { order },
+        // } = res.data;
+
+        await dispatch({
+          type: userConstants.ADD_USER_ORDER_SUCCESS,
+          payload: res.data,
+        });
         dispatch({
           type: cartConstants.RESET_CART,
         });
@@ -70,10 +78,8 @@ export const addOrder = (payload) => {
         // const {
         //     address: { address },
         // } = res.data;
-        // dispatch({
-        //     type: userConstants.ADD_USER_ADDRESS_SUCCESS,
-        //     payload: { address },
-        // });
+
+        return res;
       } else {
         const { error } = res.data;
         dispatch({

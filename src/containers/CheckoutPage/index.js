@@ -184,13 +184,17 @@ const CheckoutPage = (props) => {
       paymentType: "cod",
       discountAmount: discountPrice,
     };
-    socket.emit("new-order", {
-      customer: selectedAddress.name,
+
+    dispatch(addOrder(payload)).then((res) => {
+      if (res) {
+        socket.emit("new-order", {
+          customer: selectedAddress.name,
+          id: res.data.order._id,
+        });
+      }
     });
-    console.log(payload);
-    dispatch(addOrder(payload));
     setConfirmOrder(true);
-    window.location.reload();
+    // window.location.reload();
   };
 
   useEffect(() => {
