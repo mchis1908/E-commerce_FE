@@ -32,8 +32,8 @@ const HeroSliderOneSingle = ({ data, sliderClassName }) => {
                 src={process.env.PUBLIC_URL + data.image}
                 alt=""
                 style={{
-                  width: "740px",
-                  height: "724px",
+                  // width: "740px",
+                  height: "750px",
                 }}
               />
             </div>
