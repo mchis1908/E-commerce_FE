@@ -10,10 +10,10 @@ const HomePage = (props) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | Ecommerce Home</title>
+        <title>Heating Fan Store</title>
         <meta
           name="description"
-          content="Fashion home of Laptop Shop react minimalist eCommerce template."
+          content="Heating Fan Store"
         />
       </MetaTags>
       <LayoutOne

@@ -53,13 +53,13 @@ const NavMenu = ({ strings, menuWhiteClass, sidebarMenu }) => {
           : `main-menu ${menuWhiteClass ? menuWhiteClass : ""}`
       } `}
     >
-      <nav>
+      {/* <nav>
         <ul>
           {category.categories.length > 0
             ? renderCategories(category.categories)
             : null}
         </ul>
-      </nav>
+      </nav> */}
     </div>
   );
 };

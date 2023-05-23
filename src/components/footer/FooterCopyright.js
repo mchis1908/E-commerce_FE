@@ -21,7 +21,7 @@ const FooterCopyright = ({ footerLogo, spaceBottomClass, colorClass }) => {
       <p>
         © 2022{" "}
         <a href="//hasthemes.com" rel="noopener noreferrer" target="_blank">
-          Laptop Shop
+          Heating Fan Shop
         </a>
         .<br /> All Rights Reserved
       </p>

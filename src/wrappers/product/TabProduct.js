@@ -30,7 +30,7 @@ const TabProduct = ({
                 eventKey="newArrival"
                 onClick={() => setSlug("Macbook-Air-A6wJ-VQcp")}
               >
-                <h4>Macbook Air</h4>
+                <h4>SunHouse</h4>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -38,7 +38,7 @@ const TabProduct = ({
                 eventKey="bestSeller"
                 onClick={() => setSlug("iPad-iKJNoBsUB")}
               >
-                <h4>Ipad</h4>
+                <h4>Kangaroo</h4>
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
@@ -46,7 +46,7 @@ const TabProduct = ({
                 eventKey="saleItems"
                 onClick={() => setSlug("PC-ASUS-mZkvGSsbQ")}
               >
-                <h4>PC - ASUS</h4>
+                <h4>Mutosi</h4>
               </Nav.Link>
             </Nav.Item>
           </Nav>
