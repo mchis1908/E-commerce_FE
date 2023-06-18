@@ -54,7 +54,7 @@ const MyAccount = ({ location }) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | My Account</title>
+        <title>Heat Fan | My Account</title>
         <meta
           name="description"
           content="Compare page of Laptop Shop react minimalist eCommerce template."

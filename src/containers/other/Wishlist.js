@@ -47,7 +47,7 @@ const Wishlist = ({
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | Wishlist</title>
+        <title>Heat Fan | Wishlist</title>
         <meta
           name="description"
           content="Wishlist page of Laptop Shop react minimalist eCommerce template."
