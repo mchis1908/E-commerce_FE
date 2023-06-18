@@ -233,7 +233,7 @@ const CheckoutPage = (props) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | Checkout</title>
+        <title>Heat Fan | Checkout</title>
         <meta
           name="description"
           content="Checkout page of Laptop Shop react minimalist eCommerce template."

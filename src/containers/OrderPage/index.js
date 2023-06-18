@@ -101,7 +101,7 @@ const OrderPage = (props) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | Orders</title>
+        <title>Heat Fan | Orders</title>
         <meta
           name="description"
           content="Order page of Laptop Shop react minimalist eCommerce template."

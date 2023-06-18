@@ -164,7 +164,7 @@ const ProductStore = (props) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | Shop Page</title>
+        <title>Heat Fan | Shop Page</title>
         <meta
           name="description"
           content="Shop page of Laptop Shop react minimalist eCommerce template."

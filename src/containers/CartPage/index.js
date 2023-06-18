@@ -156,7 +156,7 @@ const CartPage = (props) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | Cart</title>
+        <title>Heat Fan | Cart</title>
         <meta
           name="description"
           content="Cart page of Laptop Shop react minimalist eCommerce template."

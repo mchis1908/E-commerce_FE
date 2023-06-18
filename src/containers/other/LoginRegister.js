@@ -62,7 +62,7 @@ const LoginRegister = ({ location }) => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | Login</title>
+        <title>Heat Fan | Login</title>
         <meta
           name="description"
           content="Compare page of Laptop Shop react minimalist eCommerce template."

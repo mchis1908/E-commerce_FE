@@ -15,7 +15,7 @@ const About = () => {
   return (
     <Fragment>
       <MetaTags>
-        <title>Laptop Shop | About us</title>
+        <title>Heat Fan | About us</title>
         <meta
           name="description"
           content="About page of Laptop Shop react minimalist eCommerce template."
